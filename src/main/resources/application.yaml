@@ -1,0 +1,15 @@
+security:
+    ignored: /**
+spring:
+    application:
+        name: streamsage
+    jpa:
+      show-sql: true
+    h2:
+      console:
+        enabled: true
+    datasource:
+      url: jdbc:h2:mem:testdb
+      
+server:
+  port: 50000
