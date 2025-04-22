@@ -19,6 +19,7 @@ import com.laderrco.streamsage.services.Interfaces.FeedbackService;
 
 
 // Testing the FeedbackService, not the acutal MVC controller
+// need to fix this for user auth
 public class FeedbackServiceTest {
     // @InjectMocks // need a real object, use Mock
     @Mock // no presistent data
