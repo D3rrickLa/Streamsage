@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,8 +33,8 @@ public class FeedbackController {
     }
 
     @PostMapping(value = {"","/"})
-    public Feedback saveFeedback(@RequestBody Feedback feedback) {
-        return feedbackService.save(feedback);
+    public Feedback saveFeedback(@RequestHeader("Authorization") String token, @RequestBody Feedback feedback) {
+        return feedbackService.submitFeedback(token, feedback);
     }
 
 }

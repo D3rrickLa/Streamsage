@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.laderrco.streamsage.domains.Feedback;
+import com.laderrco.streamsage.domains.User;
 import com.laderrco.streamsage.repositories.FeedbackRepository;
+import com.laderrco.streamsage.repositories.UserRepository;
 import com.laderrco.streamsage.services.Interfaces.FeedbackService;
 import com.laderrco.streamsage.utils.TimestampGenerator;
 
@@ -17,7 +19,9 @@ import lombok.AllArgsConstructor;
 public class FeedbackServiceImpl implements FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
+    private final UserRepository userRepository;
     private final TimestampGenerator timestampGenerator;
+    private final JwtService jwtService;
 
     @Override
     public List<Feedback> findAll() {
@@ -35,4 +39,13 @@ public class FeedbackServiceImpl implements FeedbackService {
         return feedbackRepository.save(feedback);
     }
     
+    @Override
+    public Feedback submitFeedback(String jwtToken, Feedback feedback) {
+        String cleanedToken = jwtToken.replace("Bearer ", "").trim();
+        String email = jwtService.extractUsername(cleanedToken);
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+        feedback.setTimestamp(timestampGenerator.getTimestampUTC());
+        feedback.setUser(user);
+        return feedbackRepository.save(feedback);
+    }
 }
