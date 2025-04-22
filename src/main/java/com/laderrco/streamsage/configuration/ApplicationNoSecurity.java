@@ -8,9 +8,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 // This is a test class, disables security
 @Configuration
 public class ApplicationNoSecurity {
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring()
-            .requestMatchers(new AntPathRequestMatcher("/**"));
-    }
+    // @Bean
+    // public WebSecurityCustomizer webSecurityCustomizer() {
+    //     return (web) -> web.ignoring()
+    //         .requestMatchers(new AntPathRequestMatcher("/**"));
+    // }
 }
