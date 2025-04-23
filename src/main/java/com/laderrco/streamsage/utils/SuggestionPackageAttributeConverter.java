@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 
 @Converter
 @AllArgsConstructor
-public class SuggestionAttributeConverter implements AttributeConverter<SuggestionPackage, String> {
+public class SuggestionPackageAttributeConverter implements AttributeConverter<SuggestionPackage, String> {
 
     private final ObjectMapper objectMapper;
     @Override
@@ -26,8 +26,12 @@ public class SuggestionAttributeConverter implements AttributeConverter<Suggesti
 
     @Override
     public SuggestionPackage convertToEntityAttribute(String dbData) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'convertToEntityAttribute'");
+        try {
+            return objectMapper.readValue(dbData, SuggestionPackage.class);
+        } catch (JsonProcessingException e) {
+            System.out.println("Cannot convert JSON into SuggestionPackage");
+            return null;
+        }
     }
     
 }

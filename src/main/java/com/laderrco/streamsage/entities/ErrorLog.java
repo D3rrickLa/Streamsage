@@ -1,5 +1,7 @@
 package com.laderrco.streamsage.entities;
 
+import com.laderrco.streamsage.domains.Log;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import lombok.Getter;

@@ -5,17 +5,17 @@ import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import com.laderrco.streamsage.domains.AuthenticationRequest;
+import com.laderrco.streamsage.domains.AuthenticationResponse;
 import com.laderrco.streamsage.domains.AvailableService;
 import com.laderrco.streamsage.domains.Recommendation;
 import com.laderrco.streamsage.domains.SuggestionPackage;
 import com.laderrco.streamsage.domains.Enums.RecommendationType;
-import com.laderrco.streamsage.entities.AuthenticationRequest;
-import com.laderrco.streamsage.entities.AuthenticationResponse;
 import com.laderrco.streamsage.entities.Feedback;
 import com.laderrco.streamsage.entities.User;
-import com.laderrco.streamsage.repositories.UserRepository;
 import com.laderrco.streamsage.services.AuthenticationService;
 import com.laderrco.streamsage.services.Interfaces.FeedbackService;
+import com.laderrco.streamsage.services.Interfaces.UserService;
 
 import lombok.AllArgsConstructor;
 
@@ -25,23 +25,22 @@ public class bootstrap implements CommandLineRunner {
 
     private final AuthenticationService authenticationService;
     private final FeedbackService feedbackService;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Override
     public void run(String... args) throws Exception {
         AuthenticationRequest authenticationRequest = new AuthenticationRequest("test@sample.com", "password1");
         AuthenticationResponse reponse = authenticationService.register(authenticationRequest);
-        // System.out.println(reponse);
-        User user = userRepository.findByEmail("test@sample.com").get();
+        User user = userService.findByEmail("test@sample.com").get();
 
         AvailableService service1 = new AvailableService("Netflix", "www.netflix.com");
         AvailableService service2 = new AvailableService("Prime Video", "www.prime.com");
 
         Recommendation recommendation1 = new Recommendation(
-            "Blacklists", RecommendationType.MOVIE, "The blacklist"
+            "Blacklists", RecommendationType.MOVIE, "The blacklist", List.of(service1, service2)
         );
         Recommendation recommendation2 = new Recommendation(
-            "Blacklists2", RecommendationType.MOVIE, "The blacklist2"
+            "Blacklists2", RecommendationType.MOVIE, "The blacklist2", List.of(service1)
         );
 
         SuggestionPackage suggestionPackage = new SuggestionPackage("Test Prompt", 1234567890L, List.of(recommendation1, recommendation2));

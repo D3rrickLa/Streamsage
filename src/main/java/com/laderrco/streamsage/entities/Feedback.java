@@ -2,13 +2,10 @@ package com.laderrco.streamsage.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.laderrco.streamsage.domains.SuggestionPackage;
+import com.laderrco.streamsage.utils.SuggestionPackageAttributeConverter;
 
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.AttributeOverrides;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,12 +35,8 @@ public class Feedback {
     @Lob
     private String comment;
 
-    // https://www.baeldung.com/jpa-embedded-embeddable
-    @Embedded
-    @AttributeOverrides({
-        @AttributeOverride(name = "userPrompt", column = @Column(name = "suggestion_user_prompt")),
-        @AttributeOverride(name = "timestamp", column = @Column(name = "suggestion_timestamp")),
-    })
+    @Convert(converter = SuggestionPackageAttributeConverter.class)
+    @Lob
     private SuggestionPackage suggestionPackage;
 
     // NOTE: this might be an issue if not lazy in the long run

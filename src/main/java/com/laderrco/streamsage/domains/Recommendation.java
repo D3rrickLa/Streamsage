@@ -3,15 +3,14 @@ package com.laderrco.streamsage.domains;
 import java.util.List;
 
 import com.laderrco.streamsage.domains.Enums.RecommendationType;
+import com.laderrco.streamsage.utils.SuggestionPackageAttributeConverter;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.Convert;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-@Embeddable
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +19,6 @@ public class Recommendation {
     private RecommendationType recommendationType;
     private String description;
 
-    // @ElementCollection
-    // private List<AvailableService> availableService;
+    @Convert(converter = SuggestionPackageAttributeConverter.class)
+    private List<AvailableService> availableService;
 }

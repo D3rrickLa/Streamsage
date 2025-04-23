@@ -1,4 +1,4 @@
-package com.laderrco.streamsage.entities;
+package com.laderrco.streamsage.domains;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,9 +12,6 @@ import lombok.experimental.SuperBuilder;
 @MappedSuperclass
 @SuperBuilder
 public abstract class Log {
-    public Log(String message) {
-       this.message = message;
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,4 +19,7 @@ public abstract class Log {
     @Lob
     private String message;
     private Long timestamp;
+    public Log(String message) {
+       this.message = message;
+    }
 }

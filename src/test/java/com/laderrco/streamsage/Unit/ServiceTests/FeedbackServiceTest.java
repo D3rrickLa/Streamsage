@@ -1,4 +1,4 @@
-package com.laderrco.streamsage.Unit;
+package com.laderrco.streamsage.Unit.ServiceTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
