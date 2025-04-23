@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.laderrco.streamsage.repositories.UserRepository;
+import com.laderrco.streamsage.services.Interfaces.UserService;
 
 import lombok.AllArgsConstructor;
 
@@ -22,11 +22,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ApplicationConfig {
     
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByEmail(username)
+        return username -> userService.findByEmail(username)
         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
