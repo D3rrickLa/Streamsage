@@ -5,10 +5,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.laderrco.streamsage.domains.AuthenticationRequest;
-import com.laderrco.streamsage.domains.AuthenticationResponse;
-import com.laderrco.streamsage.domains.User;
 import com.laderrco.streamsage.domains.Enums.Roles;
+import com.laderrco.streamsage.entities.AuthenticationRequest;
+import com.laderrco.streamsage.entities.AuthenticationResponse;
+import com.laderrco.streamsage.entities.User;
 import com.laderrco.streamsage.repositories.UserRepository;
 
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.laderrco.streamsage.domains;
+package com.laderrco.streamsage.entities;
 
 import java.util.Collection;
 import java.util.List;

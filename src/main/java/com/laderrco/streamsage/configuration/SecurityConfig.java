@@ -3,6 +3,7 @@ package com.laderrco.streamsage.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,9 +26,11 @@ public class SecurityConfig {
         return http
             .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/v1/auth/**").permitAll()
-                .anyRequest().authenticated()
+                // .requestMatchers("/api/v1/auth/**").permitAll()
+                // .anyRequest().authenticated()
+                .anyRequest().permitAll()
             )
+            .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())) // problem with H2 when connecting with security, need to disable header: https://stackoverflow.com/questions/40165915/why-does-the-h2-console-in-spring-boot-show-a-blank-screen-after-logging-in
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider)
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
