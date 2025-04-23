@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.laderrco.streamsage.domains.Feedback;
-import com.laderrco.streamsage.domains.User;
+import com.laderrco.streamsage.entities.Feedback;
+import com.laderrco.streamsage.entities.User;
 import com.laderrco.streamsage.repositories.FeedbackRepository;
 import com.laderrco.streamsage.repositories.UserRepository;
 import com.laderrco.streamsage.services.Interfaces.FeedbackService;

@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.laderrco.streamsage.domains.AuthenticationRequest;
-import com.laderrco.streamsage.domains.AuthenticationResponse;
+import com.laderrco.streamsage.entities.AuthenticationRequest;
+import com.laderrco.streamsage.entities.AuthenticationResponse;
 import com.laderrco.streamsage.services.AuthenticationService;
 
 import lombok.AllArgsConstructor;

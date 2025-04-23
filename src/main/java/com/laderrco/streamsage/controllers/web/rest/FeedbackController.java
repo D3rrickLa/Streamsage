@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.laderrco.streamsage.domains.Feedback;
+import com.laderrco.streamsage.entities.Feedback;
 import com.laderrco.streamsage.services.Interfaces.FeedbackService;
 
 @RestController
