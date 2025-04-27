@@ -18,8 +18,13 @@ public class ErrorLog extends Log {
     @Lob
     private String stacktrace;
 
-    public ErrorLog(String message, String code) {
+    public ErrorLog() {
+        super("");
+    }
+
+    public ErrorLog(String message, String code, String stacktrace) {
         super(message);
         this.code = code;
+        this.stacktrace = stacktrace;
     }
 }

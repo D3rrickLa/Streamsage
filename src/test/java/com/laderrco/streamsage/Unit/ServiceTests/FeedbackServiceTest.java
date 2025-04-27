@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.laderrco.streamsage.domains.SuggestionPackage;
 import com.laderrco.streamsage.entities.Feedback;
 import com.laderrco.streamsage.services.Interfaces.FeedbackService;
 
@@ -36,21 +37,24 @@ public class FeedbackServiceTest {
         assertTrue(feedbackList.size() == 0, "Size is wrong");
     }
 
-    // @Test
-    // public void testSave(){ 
-    //     // Create mock feedback list
-    //     List<Feedback> feedbackList = new ArrayList<>();
-    //     Feedback feedback = new Feedback("This is a test comment", 5,  "Hello World");
+    @Test
+    public void testSave(){ 
+        // Create mock feedback list
+        List<Feedback> feedbackList = new ArrayList<>();
+        SuggestionPackage suggestionPackage = new SuggestionPackage();
+        Feedback feedback = new Feedback(
+            "This is a test comment", 5, suggestionPackage
+            );
         
-    //     // Simulate saving by modifying the mock behavior
-    //     doAnswer(invocation -> {
-    //         feedbackList.add(feedback);
-    //         return null;
-    //     }).when(feedbackService).save(feedback);
+        // Simulate saving by modifying the mock behavior
+        doAnswer(invocation -> {
+            feedbackList.add(feedback);
+            return null;
+        }).when(feedbackService).save(feedback);
 
-    //     when(feedbackService.findById(0L)).thenReturn(Optional.of(feedback)); // Mock retrieval
+        when(feedbackService.findById(0L)).thenReturn(Optional.of(feedback)); // Mock retrieval
         
-    //     feedbackService.save(feedback);
-    //     assertEquals(feedback, feedbackService.findById(0L).get());
-    // }
+        feedbackService.save(feedback);
+        assertEquals(feedback, feedbackService.findById(0L).get());
+    }
 }
