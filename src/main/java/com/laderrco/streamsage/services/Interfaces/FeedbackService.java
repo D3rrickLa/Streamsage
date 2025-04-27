@@ -9,5 +9,5 @@ public interface FeedbackService {
     public List<Feedback> findAll();
     public Optional<Feedback> findById(Long id);
     public Feedback save (Feedback feedback);
-    public Feedback submitFeedback(String jwtToken, Feedback feedback);
+    public Feedback submitFeedback(Feedback feedback);
 }

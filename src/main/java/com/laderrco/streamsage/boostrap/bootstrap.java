@@ -5,15 +5,13 @@ import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.laderrco.streamsage.domains.AuthenticationRequest;
-import com.laderrco.streamsage.domains.AuthenticationResponse;
 import com.laderrco.streamsage.domains.AvailableService;
 import com.laderrco.streamsage.domains.Recommendation;
 import com.laderrco.streamsage.domains.SuggestionPackage;
 import com.laderrco.streamsage.domains.Enums.RecommendationType;
+import com.laderrco.streamsage.domains.Enums.Roles;
 import com.laderrco.streamsage.entities.Feedback;
 import com.laderrco.streamsage.entities.User;
-import com.laderrco.streamsage.services.AuthenticationService;
 import com.laderrco.streamsage.services.Interfaces.FeedbackService;
 import com.laderrco.streamsage.services.Interfaces.UserService;
 
@@ -23,15 +21,26 @@ import lombok.AllArgsConstructor;
 @Component
 public class bootstrap implements CommandLineRunner {
 
-    private final AuthenticationService authenticationService;
     private final FeedbackService feedbackService;
     private final UserService userService;
 
     @Override
     public void run(String... args) throws Exception {
-        AuthenticationRequest authenticationRequest = new AuthenticationRequest("test@sample.com", "password1");
-        AuthenticationResponse reponse = authenticationService.register(authenticationRequest);
-        User user = userService.findByEmail("test@sample.com").get();
+
+        User user01 = User.builder()
+            .email("john@sample.com")
+            .password("1234")
+            .role(Roles.USER)
+            .build();
+
+        User user02 = User.builder()
+            .email("john2@sample.com")
+            .password("1234")
+            .role(Roles.USER)
+            .build();
+
+        userService.save(user01);
+        userService.save(user02);
 
         AvailableService service1 = new AvailableService("Netflix", "www.netflix.com");
         AvailableService service2 = new AvailableService("Prime Video", "www.prime.com");
@@ -48,15 +57,15 @@ public class bootstrap implements CommandLineRunner {
         Feedback feedback1 = Feedback.builder()
             .comment("Some Comment")
             .suggestionPackage(suggestionPackage)
-            .user(user)
             .rating(5)
+            .user(user02)
             .build();
 
         Feedback feedback2 = Feedback.builder()
             .comment("Some Comment 2")
             .suggestionPackage(suggestionPackage)
-            .user(user)
             .rating(5)
+            .user(user02)
             .build();
 
         feedbackService.save(feedback1);

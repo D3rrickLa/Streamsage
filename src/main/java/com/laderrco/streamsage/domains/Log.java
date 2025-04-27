@@ -6,11 +6,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Data
 @MappedSuperclass
 @SuperBuilder
+@NoArgsConstructor
 public abstract class Log {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
