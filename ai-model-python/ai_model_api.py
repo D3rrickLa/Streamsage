@@ -8,14 +8,16 @@ import uvicorn
 
 app = FastAPI()
 
+ENDPOINT = "/api/v1"
+
 class GenerateRequest(BaseModel):
     prompt: str
 
-@app.get("/")
+@app.get(f"{ENDPOINT}+/")
 async def heartbeat():
     return {"message" : "Alive and well."}
 
-@app.post("/generate")
+@app.post(f"{ENDPOINT}/generate")
 async def generate_media(request: GenerateRequest): 
     response = ollama.chat(
         model="mistral:7b",

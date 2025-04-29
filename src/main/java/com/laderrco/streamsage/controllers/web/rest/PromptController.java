@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.laderrco.streamsage.domains.Prompt;
 import com.laderrco.streamsage.domains.SuggestionPackage;
 import com.laderrco.streamsage.services.Interfaces.AIResponseService;
-import com.laderrco.streamsage.services.Interfaces.MediaLookupService;
 import com.laderrco.streamsage.services.Interfaces.RecommendationService;
 
 import lombok.AllArgsConstructor;
