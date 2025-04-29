@@ -34,6 +34,7 @@ public class FeedbackController {
 
     @PostMapping(value = {"","/"})
     public Feedback saveFeedback(@RequestBody Feedback feedback) {
+        // we can use sessions for the prompt input
         return feedbackService.submitFeedback(feedback);
     }
 
