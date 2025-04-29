@@ -1,5 +1,5 @@
 package com.laderrco.streamsage.services.Interfaces;
 
-public interface PromptService {
+public interface AIResponseService {
     public String sendPrompt(String prompt);
 }
