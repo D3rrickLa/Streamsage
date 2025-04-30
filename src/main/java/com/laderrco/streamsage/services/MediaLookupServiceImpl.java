@@ -1,5 +1,10 @@
 package com.laderrco.streamsage.services;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -13,6 +18,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.laderrco.streamsage.domains.AvailableService;
+import com.laderrco.streamsage.domains.DTOs.AvailableServiceDTO;
 import com.laderrco.streamsage.domains.DTOs.MovieInfoDTO;
 import com.laderrco.streamsage.services.Interfaces.MediaLookupService;
 
@@ -51,21 +58,78 @@ public class MediaLookupServiceImpl implements MediaLookupService{
     public MovieInfoDTO getBestMatchDto(String jsonResponse, String mediaName) {
         try {
             JsonNode rootNode = objectMapper.readTree(jsonResponse);
-            JsonNode resultNode = rootNode.get("results"); 
-            
-            if (resultNode != null && resultNode.isArray()) {
-                for (JsonNode movieNode : resultNode) {
-                    MovieInfoDTO movie = objectMapper.treeToValue(movieNode, MovieInfoDTO.class);
-                    if (movie.getOriginalTitle().equalsIgnoreCase(mediaName)) {
-                        return movie; //exact match
+            JsonNode resultsNode = rootNode.get("results"); 
+            if (resultsNode != null && resultsNode.isArray()) {
+                JsonNode bestMatchJsonNode = resultsNode.get(0);
+                int highestVoltCount = 0;
+
+                for (JsonNode movieNode : resultsNode) {
+                    JsonNode voteCountNode = movieNode.get("vote_count");  
+                    int voteCount = (voteCountNode != null) ? voteCountNode.asInt() : 0; // Default to 0 if missing
+                    if(voteCount > highestVoltCount) {
+                        bestMatchJsonNode = movieNode;
+                        highestVoltCount = voteCount;
                     }
                 }
-                return objectMapper.treeToValue(resultNode.get(0), MovieInfoDTO.class);
+                return objectMapper.treeToValue(bestMatchJsonNode, MovieInfoDTO.class);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
+
+    @Override
+    public List<AvailableService> getListOfServices(Long id) {
+        if (id == null) {
+            return Collections.emptyList();
+        }
+        String url = String.format("https://api.themoviedb.org/3/movie/%d/watch/providers", id);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setBearerAuth(API_KEY);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        
+        HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
+        ResponseEntity<String> responseBody = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+        
+        List<AvailableServiceDTO> dtos = new ArrayList<>();
+       
+        try {
+           JsonNode rootNode = objectMapper.readTree(responseBody.getBody());
+           JsonNode caProviders = rootNode.path("results").path("CA");
+           if (!caProviders.isMissingNode()) {
+                dtos.addAll(extractProviderDtos(caProviders.path("rent")));
+                dtos.addAll(extractProviderDtos(caProviders.path("buy")));
+           }
+
+           return convertDtoToDomain(dtos, "rent/buy");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return Collections.emptyList();
+    }
     
+    private List<AvailableServiceDTO> extractProviderDtos(JsonNode providerList) {
+        List<AvailableServiceDTO> dtos = new ArrayList<>();
+        
+        if (providerList != null && providerList.isArray()) {
+            for (JsonNode providerNode : providerList) {
+                AvailableServiceDTO dto = new AvailableServiceDTO();
+                dto.setProviderId(providerNode.get("provider_id").asLong());
+                dto.setProviderName(providerNode.get("provider_name").asText());
+                dto.setLogoPath(providerNode.get("logo_path").asText());
+
+                dtos.add(dto);
+            }
+        }
+        return dtos;
+    }
+
+    private List<AvailableService> convertDtoToDomain(List<AvailableServiceDTO> dtos, String type) {
+        return dtos.stream()
+            .map(dto -> new AvailableService(dto, type))
+            .toList();
+    }
 }

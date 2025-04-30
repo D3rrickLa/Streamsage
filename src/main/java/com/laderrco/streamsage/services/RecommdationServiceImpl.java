@@ -14,6 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.laderrco.streamsage.domains.AvailableService;
 import com.laderrco.streamsage.domains.Prompt;
 import com.laderrco.streamsage.domains.Recommendation;
 import com.laderrco.streamsage.domains.SuggestionPackage;
@@ -51,10 +52,10 @@ public class RecommdationServiceImpl implements RecommendationService {
 
         while (matcher.find()) {
             String title = matcher.group(1).trim(); // Extract title
-            ResponseEntity<String> tmdbResponseBody = mediaLookupService.apiResponse(title);
+            String sanitizedTitle = title.replaceAll("[\"()]", "").trim();
+            ResponseEntity<String> tmdbResponseBody = mediaLookupService.apiResponse(sanitizedTitle);
                         
-            MovieInfoDTO movieInfoDTO = mediaLookupService.getBestMatchDto(tmdbResponseBody.getBody(), title);
-            
+            MovieInfoDTO movieInfoDTO = mediaLookupService.getBestMatchDto(tmdbResponseBody.getBody(), sanitizedTitle);
             if (movieInfoDTO != null) {
                 
                 // Create Recommendation object
@@ -69,6 +70,11 @@ public class RecommdationServiceImpl implements RecommendationService {
                     .toList();
                 recommendation.setGenres(genreIds);
                 recommendation.setReleaseDate(movieInfoDTO.getReleaseDate());
+
+                List<AvailableService> availableServices = mediaLookupService.getListOfServices(movieInfoDTO.getId());
+                if (availableServices != null) {
+                    recommendation.setAvailableService(availableServices);
+                }
     
                 recommendationList.add(recommendation);
                 
