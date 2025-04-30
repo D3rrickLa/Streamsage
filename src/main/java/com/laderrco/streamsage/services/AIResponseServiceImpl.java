@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 public class AIResponseServiceImpl implements AIResponseService{
     
     private final RestTemplate restTemplate = new RestTemplate();
-    final String url = "http://localhost:50001/generate";
+    final String url = "http://localhost:50001/api/v1/generate";
 
     @Override
     public String sendPrompt(String prompt) {

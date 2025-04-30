@@ -21,20 +21,15 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PromptController {
     
-    private final AIResponseService promptService;
+    private final AIResponseService aiResponseService;
     private final RecommendationService recommendationService;
 
     
     @PostMapping(value = {"","/"})
     public ResponseEntity<SuggestionPackage> sendPrompt(@RequestBody Prompt prompt) throws JsonMappingException, JsonProcessingException {
 
-        String promptResponse = promptService.sendPrompt(prompt.getPrompt());
+        String promptResponse = aiResponseService.sendPrompt(prompt.getPrompt());
         System.out.println(promptResponse);
-
-        // ResponseEntity<String> test = mediaLookupService.apiResponse("test");
-        // System.out.println(test.getBody());
-        
-        
         return new ResponseEntity<>(recommendationService.returnSuggestionPackage(prompt, promptResponse), HttpStatus.CREATED);
     }
 }

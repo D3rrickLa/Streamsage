@@ -46,10 +46,10 @@ public class bootstrap implements CommandLineRunner {
         AvailableService service2 = new AvailableService("Prime Video", "www.prime.com");
 
         Recommendation recommendation1 = new Recommendation(
-            "Blacklists", RecommendationType.MOVIE, "The blacklist", List.of(service1, service2)
+            "Blacklists", RecommendationType.MOVIE, "The blacklist", null, null, List.of(service1, service2)
         );
         Recommendation recommendation2 = new Recommendation(
-            "Blacklists2", RecommendationType.MOVIE, "The blacklist2", List.of(service1)
+            "Blacklists2", RecommendationType.MOVIE, "The blacklist2", null, null, List.of(service1)
         );
 
         SuggestionPackage suggestionPackage = new SuggestionPackage("Test Prompt", 1234567890L, List.of(recommendation1, recommendation2));
