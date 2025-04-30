@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MovieInfoDTO {
+
+    @JsonProperty("id")
     private Long id;
     
     @JsonProperty("original_title")
