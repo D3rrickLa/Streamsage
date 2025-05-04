@@ -44,10 +44,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
@@ -62,7 +58,6 @@
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session-data-redis</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -113,6 +108,12 @@
 			<groupId>me.paulschwarz</groupId>
 			<artifactId>spring-dotenv</artifactId>
 			<version>4.0.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.github.nbaars/paseto4j-version4 -->
+		<dependency>
+			<groupId>io.github.nbaars</groupId>
+			<artifactId>paseto4j-version4</artifactId>
+			<version>2024.3</version>
 		</dependency>
 	</dependencies>
 

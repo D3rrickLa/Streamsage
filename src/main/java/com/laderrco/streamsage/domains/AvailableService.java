@@ -1,26 +1,28 @@
 package com.laderrco.streamsage.domains;
 
-import com.laderrco.streamsage.domains.DTOs.AvailableServiceDTO;
-
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@RequiredArgsConstructor
+@Builder
 public class AvailableService {
-    public AvailableService(AvailableServiceDTO dto, String type) {
-        this.id = dto.getProviderId();
-        this.name = dto.getProviderName();
-        this.logoURL = "https://image.tmdb.org/t/p/original" + dto.getLogoPath(); // Build proper TMDb logo URL
-        this.type = type;
-    }
-    public AvailableService(String name, String url) {
-        this.name = name;
-        this.URL = url;
-    }
-    private Long id;
+
+    @NonNull
+    private Long id; // id from tmdb 
+
+    @NonNull
     private String name;
+    
+    @NonNull
     private String logoURL;
-    private String URL;
+    
+    private String URL; // this might be a pipe dream, no way for the API to get the link info
+    
+    @NonNull
     private String type; // rent/buy
 }

@@ -122,4 +122,6 @@ structure of API
 
 NOTE: we have an endpoint to get the watch provider
 - JustWatch Attribution Required
-- need to find a way to get the user's country/where they are from currently
+
+
+docker run -p 50001:50001 ai_model_image

@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -38,49 +35,38 @@ public class RecommdationServiceImpl implements RecommendationService {
     @Override
     public SuggestionPackage returnSuggestionPackage(Prompt prompt, String aiResponse) throws JsonMappingException, JsonProcessingException {
         
-        Map<String, String> responseMap = objectMapper.readValue(aiResponse,  new TypeReference<Map<String, String>>() {});
+        Map<String, List<String>> responseMap = objectMapper.readValue(aiResponse, new TypeReference<Map<String, List<String>>>() {});        
         List<Recommendation> recommendationList = new ArrayList<>();
+        
+        for (String title : responseMap.get("message")) {
+            ResponseEntity<String> tmdbResponseBody = mediaLookupService.apiResponse(title);
 
-        // For matching numbered book titles
-        // regex is only useful for more than n items 
-        // Need to fix this regex is really bad for this, ened a more structure way
-        // should probably just make a utils class for this pattern stripping
-        // String regex = "^(?:\\d+\\.\\s*)?(.*?)$";
-        String regex = "\\d+\\.\\s*(.*?)\\s*(?:\\n|$)";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(responseMap.get("response"));
+            MovieInfoDTO movieInfoDTO = mediaLookupService.getBestMatchDto(tmdbResponseBody.getBody(), title);
+            if (movieInfoDTO == null) {
+                continue;
+            }
 
-        while (matcher.find()) {
-            String title = matcher.group(1).trim(); // Extract title
-            String sanitizedTitle = title.replaceAll("[\"()]", "").trim();
-            ResponseEntity<String> tmdbResponseBody = mediaLookupService.apiResponse(sanitizedTitle);
-                        
-            MovieInfoDTO movieInfoDTO = mediaLookupService.getBestMatchDto(tmdbResponseBody.getBody(), sanitizedTitle);
-            if (movieInfoDTO != null) {
-                
-                // Create Recommendation object
-                Recommendation recommendation = new Recommendation();
-                recommendation.setTitle(movieInfoDTO.getOriginalTitle());
-                recommendation.setDescription(movieInfoDTO.getOverview());
-                recommendation.setRecommendationType(RecommendationType.MEDIA); 
-                
-                List<Genre> genreIds = movieInfoDTO.getGenres().stream()
+            List<AvailableService> availableServices = mediaLookupService.getListOfServices(movieInfoDTO.getId());
+            if (availableServices == null) {
+                continue;
+            }
+
+            Recommendation recommendation = Recommendation.builder()
+                .title(movieInfoDTO.getOriginalTitle())
+                .description(movieInfoDTO.getOverview())
+                .recommendationType(RecommendationType.MEDIA)
+                .genres(movieInfoDTO.getGenres().stream()
                     .map(Genre::fromId)
                     .filter(Objects::nonNull)
-                    .toList();
-                recommendation.setGenres(genreIds);
-                recommendation.setReleaseDate(movieInfoDTO.getReleaseDate());
+                    .toList()
+                )
+                .availableService(availableServices)
+                .releaseDate(movieInfoDTO.getReleaseDate())
+                .build();
+            recommendationList.add(recommendation);
 
-                List<AvailableService> availableServices = mediaLookupService.getListOfServices(movieInfoDTO.getId());
-                if (availableServices != null) {
-                    recommendation.setAvailableService(availableServices);
-                }
-    
-                recommendationList.add(recommendation);
-                
-            }
         }
-
+        
         SuggestionPackage suggestionPackage = new SuggestionPackage();
         suggestionPackage.setUserPrompt(prompt.getPrompt());
         suggestionPackage.setTimestamp(timestampGenerator.getTimestampUTC());

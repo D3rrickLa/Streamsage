@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 
 @Converter
 @AllArgsConstructor
+// This is a canadidate for error logging
 public class SuggestionPackageAttributeConverter implements AttributeConverter<SuggestionPackage, String> {
 
     private final ObjectMapper objectMapper;
@@ -19,7 +20,7 @@ public class SuggestionPackageAttributeConverter implements AttributeConverter<S
             return objectMapper.writeValueAsString(attribute);
        }
        catch (JsonProcessingException jpe) {
-            System.out.println(jpe);
+            jpe.printStackTrace();;
             return null;
        }
     }
@@ -29,7 +30,7 @@ public class SuggestionPackageAttributeConverter implements AttributeConverter<S
         try {
             return objectMapper.readValue(dbData, SuggestionPackage.class);
         } catch (JsonProcessingException e) {
-            System.out.println("Cannot convert JSON into SuggestionPackage");
+            System.err.println("Cannot convert JSON into SuggestionPackage. Raw Data: " + dbData);
             return null;
         }
     }
