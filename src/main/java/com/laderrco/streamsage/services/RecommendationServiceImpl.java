@@ -15,9 +15,9 @@ import com.laderrco.streamsage.domains.AvailableService;
 import com.laderrco.streamsage.domains.Prompt;
 import com.laderrco.streamsage.domains.Recommendation;
 import com.laderrco.streamsage.domains.SuggestionPackage;
-import com.laderrco.streamsage.domains.DTOs.MovieInfoDTO;
 import com.laderrco.streamsage.domains.Enums.Genre;
 import com.laderrco.streamsage.domains.Enums.RecommendationType;
+import com.laderrco.streamsage.dtos.MovieInfoDTO;
 import com.laderrco.streamsage.services.Interfaces.MediaLookupService;
 import com.laderrco.streamsage.services.Interfaces.RecommendationService;
 import com.laderrco.streamsage.utils.TimestampGenerator;
@@ -26,7 +26,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class RecommdationServiceImpl implements RecommendationService {
+public class RecommendationServiceImpl implements RecommendationService {
 
     private final ObjectMapper objectMapper;
     private final MediaLookupService mediaLookupService;

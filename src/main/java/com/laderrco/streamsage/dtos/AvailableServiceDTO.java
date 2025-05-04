@@ -1,4 +1,4 @@
-package com.laderrco.streamsage.domains.DTOs;
+package com.laderrco.streamsage.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

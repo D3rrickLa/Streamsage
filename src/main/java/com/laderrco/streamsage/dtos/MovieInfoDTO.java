@@ -1,4 +1,4 @@
-package com.laderrco.streamsage.domains.DTOs;
+package com.laderrco.streamsage.dtos;
 
 import java.util.List;
 
