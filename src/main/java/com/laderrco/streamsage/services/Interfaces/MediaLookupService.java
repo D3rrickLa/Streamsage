@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import com.laderrco.streamsage.domains.AvailableService;
-import com.laderrco.streamsage.domains.DTOs.MovieInfoDTO;
+import com.laderrco.streamsage.dtos.MovieInfoDTO;
 
 public interface MediaLookupService {
     public ResponseEntity<String> apiResponse(String mediaName);

@@ -2,7 +2,7 @@ package com.laderrco.streamsage.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.laderrco.streamsage.domains.SuggestionPackage;
-import com.laderrco.streamsage.utils.SuggestionPackageAttributeConverter;
+import com.laderrco.streamsage.domains.converters.SuggestionPackageAttributeConverter;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.Convert;

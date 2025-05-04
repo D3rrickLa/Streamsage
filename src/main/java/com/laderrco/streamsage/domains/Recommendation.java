@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.laderrco.streamsage.domains.Enums.Genre;
 import com.laderrco.streamsage.domains.Enums.RecommendationType;
-import com.laderrco.streamsage.utils.SuggestionPackageAttributeConverter;
+import com.laderrco.streamsage.domains.converters.SuggestionPackageAttributeConverter;
 
 import jakarta.persistence.Convert;
 import lombok.AllArgsConstructor;

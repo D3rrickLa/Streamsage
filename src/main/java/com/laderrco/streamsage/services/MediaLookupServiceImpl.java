@@ -18,8 +18,8 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.laderrco.streamsage.domains.AvailableService;
-import com.laderrco.streamsage.domains.DTOs.AvailableServiceDTO;
-import com.laderrco.streamsage.domains.DTOs.MovieInfoDTO;
+import com.laderrco.streamsage.dtos.AvailableServiceDTO;
+import com.laderrco.streamsage.dtos.MovieInfoDTO;
 import com.laderrco.streamsage.services.Interfaces.MediaLookupService;
 
 
