@@ -8,6 +8,7 @@ import com.laderrco.streamsage.utils.SuggestionPackageAttributeConverter;
 
 import jakarta.persistence.Convert;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Recommendation {
     private String title;
     private RecommendationType recommendationType;

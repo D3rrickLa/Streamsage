@@ -19,7 +19,7 @@ public class AvailableServiceAttributeConverter implements AttributeConverter<Av
             return objectMapper.writeValueAsString(attribute);
        }
        catch (JsonProcessingException jpe) {
-            System.out.println(jpe);
+            jpe.printStackTrace();;
             return null;
        }
     }
@@ -29,7 +29,7 @@ public class AvailableServiceAttributeConverter implements AttributeConverter<Av
         try {
             return objectMapper.readValue(dbData, AvailableService.class);
         } catch (JsonProcessingException e) {
-            System.out.println("Cannot convert JSON into SuggestionPackage");
+            System.err.println("Cannot convert JSON into SuggestionPackage. Raw Data: " + dbData);
             return null;
         }
     }

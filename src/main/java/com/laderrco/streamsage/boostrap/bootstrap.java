@@ -42,8 +42,22 @@ public class bootstrap implements CommandLineRunner {
         userService.save(user01);
         userService.save(user02);
 
-        AvailableService service1 = new AvailableService("Netflix", "www.netflix.com");
-        AvailableService service2 = new AvailableService("Prime Video", "www.prime.com");
+        AvailableService service1 = AvailableService.builder()
+            .URL("www.netflix.com")
+            .id(01L)
+            .name("Netflix")
+            .logoURL("http://")
+            .type("Rent/Buy")
+            .build();
+
+        AvailableService service2 = AvailableService.builder()
+            .URL("www.primevideo.com")
+            .id(02L)
+            .name("Prime Video")
+            .logoURL("http://")
+            .type("Rent/Buy")
+            .build();
+  
 
         Recommendation recommendation1 = new Recommendation(
             "Blacklists", RecommendationType.MOVIE, "The blacklist", null, null, List.of(service1, service2)
@@ -58,7 +72,7 @@ public class bootstrap implements CommandLineRunner {
             .comment("Some Comment")
             .suggestionPackage(suggestionPackage)
             .rating(5)
-            .user(user02)
+            .user(user01)
             .build();
 
         Feedback feedback2 = Feedback.builder()
