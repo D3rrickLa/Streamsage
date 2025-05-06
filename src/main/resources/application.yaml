@@ -16,4 +16,9 @@ server:
   port: 50000
 
 env:
-  TMDB_KEY: ${TMDB_KEY}
+  token:
+    TMDB_KEY: ${TMDB_KEY}
+    paseto:
+      SECRET: ${token_secret_key}
+      FOOTER: poc-paseto
+

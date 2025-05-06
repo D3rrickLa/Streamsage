@@ -9,12 +9,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.laderrco.streamsage.configuration.ApplicationSecurityBypass;
+// import com.laderrco.streamsage.configuration.ApplicationSecurityBypass;
 import com.laderrco.streamsage.controllers.web.rest.PromptController;
 import com.laderrco.streamsage.domains.Prompt;
 
 @WebMvcTest(PromptController.class)
-@Import(ApplicationSecurityBypass.class) // Ensure your security configuration is applied
+// @Import(ApplicationSecurityBypass.class) // Ensure your security configuration is applied
 public class PromptControllerTest {
     @Autowired
     private MockMvc mvc;

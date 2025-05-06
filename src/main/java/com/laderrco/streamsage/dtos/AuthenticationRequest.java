@@ -1,4 +1,4 @@
-package com.laderrco.streamsage.domains;
+package com.laderrco.streamsage.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
