@@ -12,4 +12,6 @@ public interface FeedbackService {
     public Optional<Feedback> findById(Long id);
     public Feedback save (Feedback feedback);
     public Feedback submitFeedback(FeedbackDTO feedback, SuggestionPackage suggestionPackage);
+
+    public void deleteByUserId(Long id);
 }

@@ -10,4 +10,5 @@ import com.laderrco.streamsage.entities.Feedback;
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, Long>{
     public List<Feedback> findByOrderByTimestampDesc();
+    public void deleteByUserId(Long id);
 }

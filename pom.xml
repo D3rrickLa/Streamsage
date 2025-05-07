@@ -115,6 +115,7 @@
 			<artifactId>paseto4j-version4</artifactId>
 			<version>2024.3</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>
