@@ -2,6 +2,7 @@ package com.laderrco.streamsage.services;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,10 +44,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         System.out.println(request);
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+            
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid credentials provided.");
+        }
         
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-        System.out.println("looked up user: " + user);
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User with email " + request.getEmail() + " not found"));
         var pasetoToken = tokenService.generateToken(user);
         return AuthenticationResponse.builder().token(pasetoToken).build();
     }

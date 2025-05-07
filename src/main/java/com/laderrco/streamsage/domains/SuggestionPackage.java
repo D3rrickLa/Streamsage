@@ -14,5 +14,5 @@ public class SuggestionPackage {
     private String userPrompt;
     private Long timestamp;
 
-    private List<Recommendation> RecommendationList;
+    private List<Recommendation> recommendationList;
 }

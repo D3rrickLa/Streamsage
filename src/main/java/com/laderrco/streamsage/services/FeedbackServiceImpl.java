@@ -5,9 +5,13 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.laderrco.streamsage.domains.SuggestionPackage;
+import com.laderrco.streamsage.dtos.FeedbackDTO;
 import com.laderrco.streamsage.entities.Feedback;
+import com.laderrco.streamsage.entities.User;
 import com.laderrco.streamsage.repositories.FeedbackRepository;
 import com.laderrco.streamsage.services.Interfaces.FeedbackService;
+import com.laderrco.streamsage.services.Interfaces.UserService;
 import com.laderrco.streamsage.utils.TimestampGenerator;
 
 import lombok.AllArgsConstructor;
@@ -17,6 +21,7 @@ import lombok.AllArgsConstructor;
 public class FeedbackServiceImpl implements FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
+    private final UserService userService;
     private final TimestampGenerator timestampGenerator;
 
     @Override
@@ -29,14 +34,22 @@ public class FeedbackServiceImpl implements FeedbackService {
         return feedbackRepository.findById(id);
     }
 
-    @Override
+    @Override 
+    @Deprecated // remove this
     public Feedback save(Feedback feedback) {
         feedback.setTimestamp(timestampGenerator.getTimestampUTC());
         return feedbackRepository.save(feedback);
     }
     
     @Override
-    public Feedback submitFeedback(Feedback feedback) {
+    public Feedback submitFeedback(FeedbackDTO feedbackDTO, SuggestionPackage suggestionPackage) {
+        
+        User user  = userService.findById(userService.findIdByEmail()).orElseThrow();
+        Feedback feedback = new Feedback();
+        feedback.setUser(user);
+        feedback.setComment(feedbackDTO.getComment());
+        feedback.setRating(feedbackDTO.getRating());
+        feedback.setSuggestionPackage(suggestionPackage);
         feedback.setTimestamp(timestampGenerator.getTimestampUTC());
         return feedbackRepository.save(feedback);
     }

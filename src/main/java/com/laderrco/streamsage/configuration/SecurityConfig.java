@@ -19,13 +19,14 @@ public class SecurityConfig {
     private final PasetoAuthenticationFilter pasetoAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
             .csrf(crsf -> crsf.disable())
             .headers((header) -> header.frameOptions((frameOptions) -> frameOptions.disable()))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/v1/accounts/**").permitAll()
+                .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated())
             .sessionManagement(session ->

@@ -14,10 +14,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.laderrco.streamsage.domains.Prompt;
 import com.laderrco.streamsage.domains.SuggestionPackage;
-import com.laderrco.streamsage.services.LocaleService;
 import com.laderrco.streamsage.services.Interfaces.AIResponseService;
 import com.laderrco.streamsage.services.Interfaces.RecommendationService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -27,15 +27,16 @@ public class PromptController {
     
     private final AIResponseService aiResponseService;
     private final RecommendationService recommendationService;
-    private final LocaleService localeService;
     
     @PostMapping(value = {"","/"})
-    public ResponseEntity<SuggestionPackage> sendPrompt(@RequestBody Prompt prompt, @RequestHeader("Accept-Language") Locale locale) throws JsonMappingException, JsonProcessingException {
+    public ResponseEntity<SuggestionPackage> sendPrompt(HttpSession session, @RequestBody Prompt prompt, @RequestHeader("Accept-Language") Locale locale) throws JsonMappingException, JsonProcessingException {
 
         String promptResponse = aiResponseService.sendPrompt(prompt.getPrompt());
-        // System.out.println(promptResponse);
-        System.out.println(localeService.getUserLocale());
+        SuggestionPackage suggestionPackage = recommendationService.returnSuggestionPackage(prompt, promptResponse);
 
-        return new ResponseEntity<>(recommendationService.returnSuggestionPackage(prompt, promptResponse), HttpStatus.CREATED);
+        session.setAttribute("suggestionPackage", suggestionPackage);
+        System.out.println("Session of Package has been stored");
+
+        return new ResponseEntity<>(suggestionPackage, HttpStatus.CREATED);
     }
 }

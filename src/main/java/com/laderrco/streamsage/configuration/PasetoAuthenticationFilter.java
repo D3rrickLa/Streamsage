@@ -43,7 +43,6 @@ public class PasetoAuthenticationFilter extends OncePerRequestFilter {
 
             String username = tokenService.extractUsername(token); // could be the extract issue
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                System.out.println("amognus "+username); // is returning 3, should 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 
                 if(tokenService.isTokenValid(token, userDetails)) {
