@@ -1,12 +1,9 @@
 package com.laderrco.streamsage.services;
 
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
-
-import javax.crypto.spec.SecretKeySpec;
 
 import org.bouncycastle.util.Arrays;
 import org.paseto4j.commons.PasetoException;
@@ -24,7 +21,6 @@ import com.laderrco.streamsage.domains.AppToken;
 import com.laderrco.streamsage.entities.User;
 
 import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.io.Encoders;
 
 
 
@@ -57,7 +53,7 @@ public class TokenService {
 
     public String generateToken(User user) {
         Instant now = Instant.now();
-        AppToken appToken = new AppToken(user.getId().toString(), user.getUsername(), now.plus(Duration.ofHours(24L)));
+        AppToken appToken = new AppToken(user.getId().toString(), user.getUsername(), now.plus(Duration.ofHours(1L)));
 
         try{
             String payload = mapper().writeValueAsString(appToken);

@@ -1,5 +1,8 @@
 package com.laderrco.streamsage.entities;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.laderrco.streamsage.domains.SuggestionPackage;
 import com.laderrco.streamsage.domains.converters.SuggestionPackageAttributeConverter;
@@ -32,6 +35,7 @@ public class Feedback {
     @Nonnull
     private Integer rating;
 
+
     @Lob
     private String comment;
 
@@ -41,7 +45,8 @@ public class Feedback {
 
     // NOTE: this might be an issue if not lazy in the long run
     @ManyToOne
-    @JsonIgnoreProperties({"feedbackList", "password"})
+    @JsonIgnoreProperties({"password"})
+    @OnDelete(action = OnDeleteAction.CASCADE) // Automatically delete feedback when user is deleted
     private User user;
 
     private Long timestamp;
