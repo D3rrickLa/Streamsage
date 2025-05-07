@@ -53,4 +53,9 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedback.setTimestamp(timestampGenerator.getTimestampUTC());
         return feedbackRepository.save(feedback);
     }
+
+    @Override
+    public void deleteByUserId(Long id) {
+        feedbackRepository.deleteByUserId(id);
+    }
 }

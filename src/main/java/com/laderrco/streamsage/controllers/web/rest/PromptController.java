@@ -35,7 +35,6 @@ public class PromptController {
         SuggestionPackage suggestionPackage = recommendationService.returnSuggestionPackage(prompt, promptResponse);
 
         session.setAttribute("suggestionPackage", suggestionPackage);
-        System.out.println("Session of Package has been stored");
 
         return new ResponseEntity<>(suggestionPackage, HttpStatus.CREATED);
     }

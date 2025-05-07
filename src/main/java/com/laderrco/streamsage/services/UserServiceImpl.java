@@ -9,6 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.laderrco.streamsage.dtos.AuthenticationRequest;
 import com.laderrco.streamsage.dtos.CredentialsDTO;
 import com.laderrco.streamsage.dtos.UserInfoDTO;
 import com.laderrco.streamsage.entities.User;
@@ -79,5 +81,14 @@ public class UserServiceImpl implements UserService {
         return user.getId(); // Use ID instead of email
     }
 
-    
+    @Override
+    public void delete(AuthenticationRequest authenticationRequest) throws Exception {
+        User user = findByEmail(authenticationRequest.getEmail()).orElseThrow(() -> new UsernameNotFoundException("Wrong email address"));
+        
+        if(!passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword())) {
+            throw new Exception("Inocrrect password given");
+        }
+
+        userRepository.delete(user);
+    }    
 }

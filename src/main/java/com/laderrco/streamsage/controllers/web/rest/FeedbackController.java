@@ -16,7 +16,6 @@ import com.laderrco.streamsage.domains.SuggestionPackage;
 import com.laderrco.streamsage.dtos.FeedbackDTO;
 import com.laderrco.streamsage.entities.Feedback;
 import com.laderrco.streamsage.services.Interfaces.FeedbackService;
-import com.laderrco.streamsage.services.Interfaces.UserService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
