@@ -6,9 +6,9 @@
 // import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 // import org.springframework.security.web.SecurityFilterChain;
 
-// // @Configuration
+// @Configuration
 // public class ApplicationSecurityBypass {
-//     // @Bean
+//     @Bean
 //     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 //         http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
 //         .csrf(AbstractHttpConfigurer::disable)

@@ -11,3 +11,10 @@ docker run -p 50001:50001 ai_model_image
 THINGS TO TEST:
 - all controllers
 - all services
+
+
+unit - core parts of methods
+
+integration - dry run (MockMVC + RestTemplate)
+
+https://stackoverflow.com/questions/39865596/difference-between-using-mockmvc-with-springboottest-and-using-webmvctest
