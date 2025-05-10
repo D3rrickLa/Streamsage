@@ -3,6 +3,7 @@ package com.laderrco.streamsage.boostrap;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.laderrco.streamsage.domains.AvailableService;
@@ -23,20 +24,22 @@ public class bootstrap implements CommandLineRunner {
 
     private final FeedbackService feedbackService;
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Override
     public void run(String... args) throws Exception {
 
         User user01 = User.builder()
             .email("john@sample.com")
-            .password("1234")
-            .role(Roles.USER)
+            .password(passwordEncoder.encode("1234"))
+            .role(Roles.ROLE_ADMIN)
             .build();
 
         User user02 = User.builder()
             .email("john2@sample.com")
-            .password("1234")
-            .role(Roles.USER)
+            .password(passwordEncoder.encode("1234"))
+            .role(Roles.ROLE_USER)
             .build();
 
         userService.save(user01);

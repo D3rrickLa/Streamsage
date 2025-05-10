@@ -1,9 +1,13 @@
 package com.laderrco.streamsage.controllers.web.rest;
 // for updating things related to the user
 
+import java.util.Optional;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +22,10 @@ import com.laderrco.streamsage.entities.User;
 import com.laderrco.streamsage.services.TokenService;
 import com.laderrco.streamsage.services.Interfaces.UserService;
 
+import jakarta.servlet.http.HttpSession;
+
+import com.laderrco.streamsage.services.UserDeletionService;
+
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -29,7 +37,7 @@ public class UserController {
      */
 
     private final UserService userService;
-    private final com.laderrco.streamsage.services.UserDeletionService userDeletionService;
+    private final UserDeletionService userDeletionService;
     private final TokenService tokenService;
 
     @PutMapping("/profile") // want to seperate out the email and other info, don't need to generate a new token each time your name chagnes
@@ -40,6 +48,20 @@ public class UserController {
         
         AuthenticationResponse authenticationResponse = new AuthenticationResponse(token);
         return ResponseEntity.ok(authenticationResponse);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<UserInfoDTO> getUserInfo(HttpSession session) throws Exception {
+        String userEmail = (String) session.getAttribute("userEmail");
+
+        if (userEmail == null) {        
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null); // Handle missing email in session
+        }
+
+        Optional<User> user = userService.findByEmail(userEmail);
+
+        return user.map(value -> ResponseEntity.ok(new UserInfoDTO(value)))
+            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)); // Return 404 instead of exception
     }
 
 
