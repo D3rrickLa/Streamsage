@@ -7,14 +7,15 @@ import org.springframework.web.client.RestTemplate;
 
 import com.laderrco.streamsage.services.Interfaces.AIResponseService;
 
-import lombok.AllArgsConstructor;
-
 @Service
-@AllArgsConstructor
 public class AIResponseServiceImpl implements AIResponseService{
     
-    private final RestTemplate restTemplate = new RestTemplate();
-    final String url = "http://localhost:50001/api/v1/generate";
+    private final RestTemplate restTemplate;
+    final String url = "http://localhost:50001/api/v1/generate"; 
+
+    public AIResponseServiceImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     @Override
     public String sendPrompt(String prompt) {

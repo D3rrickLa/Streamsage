@@ -1,5 +1,6 @@
 package com.laderrco.streamsage.domains.Enums;
 
 public enum Roles {
-    USER, ADMIN
+    ROLE_ADMIN,
+    ROLE_USER
 }

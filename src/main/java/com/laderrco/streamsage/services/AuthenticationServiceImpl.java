@@ -29,7 +29,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = User.builder()
             .email(request.getEmail())
             .password(passwordEncoder.encode(request.getPassword()))
-            .role(Roles.USER)
+            .role(Roles.ROLE_USER)
             .build();
         
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {

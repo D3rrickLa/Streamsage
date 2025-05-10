@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
         User user = findByEmail(authenticationRequest.getEmail()).orElseThrow(() -> new UsernameNotFoundException("Wrong email address"));
         
         if(!passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword())) {
-            throw new Exception("Inocrrect password given");
+            throw new Exception("Incorrect password given");
         }
 
         userRepository.delete(user);
