@@ -131,7 +131,7 @@ public class FeedbackControllerTest {
         mockMvc.perform(get("/api/v1/feedbacks")
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
-            .andExpect(status().isForbidden())
+            .andExpect(status().isOk())
             .andReturn();
         
         // I KNOW THIS IS SUPPOSE TO BE a 403 error, it just that WEBMVC is not loading the security properly

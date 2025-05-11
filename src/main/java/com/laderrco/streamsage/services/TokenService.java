@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.bouncycastle.util.Arrays;
+import org.jetbrains.annotations.TestOnly;
 import org.paseto4j.commons.PasetoException;
 import org.paseto4j.commons.SecretKey;
 import org.paseto4j.commons.Version;
@@ -63,6 +64,10 @@ public class TokenService {
             jpe.printStackTrace();
             return "ERROR_GENERATING_TOKEN";
         }
+        catch(Exception e) {
+            e.printStackTrace();
+            return "CRITICAL_ERROR_GENERATING_TOKEN";
+        }
     }
 
     public Optional<String> encrypt(AppToken token) {
@@ -104,5 +109,12 @@ public class TokenService {
         JsonMapper mapper = new JsonMapper();
         mapper.registerModule(new JavaTimeModule());
         return mapper;
+    }
+
+
+    @TestOnly
+    public void testSetAPIandFooter() {
+        this.footer = "123456789";
+        this.secret = "1234567890";
     }
 }

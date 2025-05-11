@@ -132,4 +132,13 @@ public class FeedbackServiceTest {
 
         verify(feedbackRepository, times(1)).deleteByUserId(1L);
     }
+
+    @Test
+    void testFindById() {
+        when(feedbackRepository.findById(anyLong())).thenReturn(Optional.of(new Feedback()));
+
+        Feedback feedbackTest = feedbackService.findById(1L).get();
+
+        assertEquals(feedbackTest, new Feedback());
+    }
 }
