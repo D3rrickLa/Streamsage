@@ -11,7 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.laderrco.streamsage.domains.Enums.Roles;
 
 import lombok.AllArgsConstructor;
 
@@ -36,7 +35,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/v1/feedbacks").hasRole(Roles.ROLE_ADMIN.toString())
+                .requestMatchers(HttpMethod.GET, "/api/v1/feedbacks").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/v1/prompts").permitAll()
                 .anyRequest().authenticated()
             )

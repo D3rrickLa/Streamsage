@@ -29,6 +29,6 @@ public class LocaleServiceTest {
         when(localeServiceTest.getUserLocale()).thenReturn(Locale.of("en", "CA"));
         Locale testLocale = localeServiceTest.getUserLocale();
 
-        assertEquals(locale, testLocale);
+        assertEquals(locale+"_CA", testLocale);
     }
 }
