@@ -1,14 +1,10 @@
 package com.laderrco.streamsage.Unit.ServiceTests;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -27,8 +23,6 @@ import com.laderrco.streamsage.domains.Enums.Roles;
 import com.laderrco.streamsage.dtos.AuthenticationRequest;
 import com.laderrco.streamsage.entities.Feedback;
 import com.laderrco.streamsage.entities.User;
-import com.laderrco.streamsage.repositories.FeedbackRepository;
-import com.laderrco.streamsage.repositories.UserRepository;
 import com.laderrco.streamsage.services.FeedbackServiceImpl;
 import com.laderrco.streamsage.services.UserDeletionService;
 import com.laderrco.streamsage.services.UserServiceImpl;

@@ -2,6 +2,7 @@ package com.laderrco.streamsage.controllers.web.rest;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,11 +21,14 @@ public class ErrorLogController {
     private final LogService<ErrorLog> logService;
 
     @GetMapping(value = {"errorlogs"})
+    @PreAuthorize("hasRole('ADMIN')")
     public List<ErrorLog> getAllErrorLogs() {
         return logService.findAll();
     }
 
+
     @PostMapping(value = {"errorlogs"})
+    @PreAuthorize("hasRole('ADMIN', 'USER')")
     public ErrorLog saveErrorLog(@RequestBody ErrorLog errorLog) {
         return logService.save(errorLog);
     }
