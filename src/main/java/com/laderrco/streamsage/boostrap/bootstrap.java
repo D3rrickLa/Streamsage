@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 import com.laderrco.streamsage.domains.AvailableService;
 import com.laderrco.streamsage.domains.Recommendation;
@@ -18,8 +17,9 @@ import com.laderrco.streamsage.services.Interfaces.UserService;
 
 import lombok.AllArgsConstructor;
 
+@Deprecated
 @AllArgsConstructor
-@Component
+// @Component
 public class bootstrap implements CommandLineRunner {
 
     private final FeedbackService feedbackService;

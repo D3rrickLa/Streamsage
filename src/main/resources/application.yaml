@@ -7,13 +7,28 @@ spring:
       show-sql: true
       hibernate:
         ddl-auto: update
+      # properties:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     h2:
       console:
-        enabled: true
+        enabled: false
     datasource:
-      url: jdbc:h2:mem:testdb
+      # url: jdbc:h2:mem:testdb
+      url: ${postgres_sql_url}
+      username: ${postgres_username}
+      password: ${postgres_password}
+      driver-class-name: org.postgresql.Driver
+    data:
+      redis:
+        port: 6379
+        host: localhost
+    
 server:
   port: 50000
+  compression:
+    enabled: 'true'
+    mime-types: application/json,text/css,application/javascript
+    min-response-size: '1024'
 
 env:
   token:

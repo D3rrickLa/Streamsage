@@ -116,6 +116,13 @@
 			<version>2024.3</version>
 		</dependency>
 
+		<!-- handles JSONB format for PostgreSQL -->
+		<dependency>
+			<groupId>io.hypersistence</groupId>
+			<artifactId>hypersistence-utils-hibernate-60</artifactId>
+			<version>3.9.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

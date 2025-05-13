@@ -27,6 +27,8 @@ import com.laderrco.streamsage.configuration.PasetoAuthenticationFilter;
 import com.laderrco.streamsage.controllers.web.rest.PromptController;
 import com.laderrco.streamsage.domains.Prompt;
 import com.laderrco.streamsage.domains.SuggestionPackage;
+import com.laderrco.streamsage.services.RedisCacheService;
+import com.laderrco.streamsage.services.TokenService;
 import com.laderrco.streamsage.services.Interfaces.AIResponseService;
 import com.laderrco.streamsage.services.Interfaces.RecommendationService;
 import jakarta.servlet.FilterChain;
@@ -54,6 +56,12 @@ public class PromptControllerTest {
 
     @MockitoBean
     private RecommendationService recommendationService;
+
+    @MockitoBean
+    private RedisCacheService redisCacheService;
+
+    @MockitoBean
+    private TokenService tokenService;
 
     @MockitoBean
     private PasetoAuthenticationFilter pasetoAuthenticationFilter;
@@ -158,10 +166,10 @@ public class PromptControllerTest {
         when(aiResponseService.sendPrompt(anyString())).thenReturn("mock AI response");
         when(recommendationService.returnSuggestionPackage(any(), any())).thenReturn(suggestionPackage);
 
-        PromptController controller = new PromptController(aiResponseService, recommendationService);
+        PromptController controller = new PromptController(aiResponseService, recommendationService, redisCacheService, tokenService);
         HttpSession mockSession = mock(HttpSession.class);
 
-        ResponseEntity<SuggestionPackage> response = controller.sendPrompt(mockSession, prompt, null);
+        ResponseEntity<SuggestionPackage> response = controller.sendPrompt(mockSession, prompt, null, null);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("Testing User Prompt", response.getBody().getUserPrompt());

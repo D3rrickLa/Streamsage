@@ -26,8 +26,8 @@ public class PythonServiceManager {
 
     private void startPythonProcess() {
         try {
-            ProcessBuilder builder = new ProcessBuilder("uvicorn", "ai_model_api:app", "--host", "localhost", "--port", "50001", "--reload");
-            builder.directory(new File("ai-model-python"));
+            ProcessBuilder builder = new ProcessBuilder("uvicorn", "ai_model_api:app", "--host", "localhost", "--port", "50001");
+            builder.directory(new File("ai-model-python\\app"));
             builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             builder.redirectError(ProcessBuilder.Redirect.INHERIT);
             pythonProcess = builder.start();

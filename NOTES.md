@@ -18,3 +18,16 @@ unit - core parts of methods
 integration - dry run (MockMVC + RestTemplate)
 
 https://stackoverflow.com/questions/39865596/difference-between-using-mockmvc-with-springboottest-and-using-webmvctest
+
+
+
+- how to cache recommendation with redis?
+- the problem is that 2 people can type in different sentences to get the same result, redis using key mappings can't really do that unless
+  - we brute force it by stripping for common 'variables'
+  - use NLP...
+
+
+<!-- NOTE:
+our Python server runs on HTTP/1.1, to fix this we are on the spring side referencing 1.1, but you can also get aroudn this with TLS
+
+ -->
