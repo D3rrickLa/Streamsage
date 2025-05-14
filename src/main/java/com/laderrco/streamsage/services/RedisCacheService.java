@@ -26,7 +26,7 @@ public class RedisCacheService {
             // cachedRecommendation.setLastAccessed(System.currentTimeMillis());
         
             // save and update cahce 
-            redisTemplate.opsForValue().set(normalizedQuery, cachedRecommendation, Duration.ofHours(1L));
+            redisTemplate.opsForValue().set(normalizedQuery, cachedRecommendation, Duration.ofMinutes(30L));
             return cachedRecommendation;
         }
 
@@ -36,7 +36,7 @@ public class RedisCacheService {
 
     public void saveToCache(String prompt, SuggestionPackage suggestionPackage) {
         try {
-            redisTemplate.opsForValue().set(QueryNormalizer.normalizeQuery(prompt), suggestionPackage, Duration.ofMinutes(30L));
+            redisTemplate.opsForValue().set(QueryNormalizer.normalizeQuery(prompt), suggestionPackage, Duration.ofMinutes(15L));
         } catch (Exception e) {
             throw new CacheException("Error while saving to Redis cache", e);
         }

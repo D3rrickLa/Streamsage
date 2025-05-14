@@ -31,3 +31,34 @@ https://stackoverflow.com/questions/39865596/difference-between-using-mockmvc-wi
 our Python server runs on HTTP/1.1, to fix this we are on the spring side referencing 1.1, but you can also get aroudn this with TLS
 
  -->
+
+
+ Summary:
+Address Remaining Issues: Fix any bugs and review code quality.
+
+Testing: Complete integration testing and consider increasing coverage.
+
+Code Review: Self-review and request peer reviews.
+
+Performance & Security: Optional performance tests and security audits.
+
+Documentation: Document your code and potential future improvements.
+
+Deploy: Deploy your app and check configurations.
+
+Monitoring: Set up monitoring/logging for production.
+
+Feedback: Gather feedback from users and improve the product.
+
+
+
+
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            if (tokenService.decrypt(token) != null) {
+                System.out.println("user exists");
+                session.setAttribute("suggestionPackage", suggestionPackage);             
+            }
+        }
+        don't think we need this becaue the check is already there is suggestionPackage is empty
+        if empty we know no user has been logged in

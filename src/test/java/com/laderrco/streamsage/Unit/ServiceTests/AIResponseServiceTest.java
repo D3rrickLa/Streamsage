@@ -1,18 +1,18 @@
 package com.laderrco.streamsage.Unit.ServiceTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,11 +22,16 @@ import com.laderrco.streamsage.services.AIResponseServiceImpl;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AIResponseServiceTest {
     
-    @InjectMocks
-    private AIResponseServiceImpl aiResponseService;
-
     @Mock
     private RestTemplate restTemplate;
+    
+    private AIResponseServiceImpl aiResponseService;
+    @BeforeEach
+    void init() {
+        MockitoAnnotations.openMocks(this);
+        aiResponseService = new AIResponseServiceImpl(restTemplate);
+    }
+
 
     @Test
     @Order(1)
@@ -36,7 +41,7 @@ public class AIResponseServiceTest {
         Map<String, String> requestBody = Map.of("prompt", "test Prompt");
 
         // ✅ Mock the RestTemplate call properly
-        when(restTemplate.postForObject(eq(url), eq(requestBody), eq(String.class)))
+        when(restTemplate.postForObject(url, requestBody, String.class))
             .thenReturn(mockResponse);
 
         String response = aiResponseService.sendPrompt("test Prompt");

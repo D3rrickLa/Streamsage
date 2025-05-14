@@ -20,19 +20,22 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.laderrco.streamsage.configuration.PasetoAuthenticationFilter;
+import com.laderrco.streamsage.configuration.SecurityConfig;
 import com.laderrco.streamsage.controllers.web.rest.FeedbackController;
 import com.laderrco.streamsage.domains.SuggestionPackage;
 import com.laderrco.streamsage.dtos.FeedbackDTO;
 import com.laderrco.streamsage.entities.Feedback;
+import com.laderrco.streamsage.services.TokenService;
 import com.laderrco.streamsage.services.Interfaces.FeedbackService;
 
 import jakarta.servlet.FilterChain;
@@ -41,6 +44,7 @@ import jakarta.servlet.ServletException;
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = FeedbackController.class)
 @AutoConfigureMockMvc
+@Import(SecurityConfig.class)
 public class FeedbackControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -52,7 +56,13 @@ public class FeedbackControllerTest {
     private PasetoAuthenticationFilter pasetoAuthenticationFilter;
 
     @MockitoBean
+    private TokenService tokenService;
+
+    @MockitoBean
     private FeedbackService feedbackService;
+
+    @MockitoBean
+    private AuthenticationProvider authenticationProvider;
 
     @BeforeEach
     void setup() throws ServletException, IOException {
@@ -64,8 +74,8 @@ public class FeedbackControllerTest {
         }).when(pasetoAuthenticationFilter).doFilter(any(), any(), any());
     }
 
-    @WithMockUser(username = "testUser", roles = "USER")
     @Test
+    @WithMockUser(username = "testUser", roles = "USER")
     void testSaveFeedback_Correct() throws Exception {
         MockHttpSession mockSession = new MockHttpSession();
     
@@ -113,11 +123,7 @@ public class FeedbackControllerTest {
             .session(mockSession) // Inject mocked session
             .content(objectMapper.writeValueAsString(feedbackDTO)))
             .andExpect(status().isBadRequest());
-
-
-
     }
-    
 
     // ALSO can't get this running with WebMockMVC - security doesn't get implemented for the @PreAuthorize
     // NOTE: reason why it wasn't working before was because our 'ROLE' internally looks like this: "ROLE_USER"
@@ -131,7 +137,7 @@ public class FeedbackControllerTest {
         mockMvc.perform(get("/api/v1/feedbacks")
             .contentType(MediaType.APPLICATION_JSON)
             .with(csrf()))
-            .andExpect(status().isOk())
+            .andExpect(status().isForbidden())
             .andReturn();
         
         // I KNOW THIS IS SUPPOSE TO BE a 403 error, it just that WEBMVC is not loading the security properly

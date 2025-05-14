@@ -45,23 +45,19 @@ public class PromptController {
         }
         
         String promptResponse = aiResponseService.sendPrompt(prompt.getPrompt());
-        System.out.println(promptResponse);
+        // System.out.println(promptResponse);
         suggestionPackage = recommendationService.returnSuggestionPackage(prompt, promptResponse);
         redisCacheService.saveToCache(prompt.getPrompt(), suggestionPackage);
         checkUserHasBearer(session, authorizationHeader, suggestionPackage);
         
     
-        System.out.println("TEST 3");
         return new ResponseEntity<>(suggestionPackage, HttpStatus.CREATED);
     }
 
     private void checkUserHasBearer(HttpSession session, String authorizationHeader, SuggestionPackage suggestionPackage) {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-                System.out.println("TEST 1");
                 String token = authorizationHeader.substring(7);
                 if (tokenService.decrypt(token) != null) {
-                    System.out.println("TEST 2");
-                    System.out.println("user exists");
                     session.setAttribute("suggestionPackage", suggestionPackage);             
                 }
             }

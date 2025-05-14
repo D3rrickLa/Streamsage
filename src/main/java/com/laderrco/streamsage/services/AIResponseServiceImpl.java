@@ -9,17 +9,24 @@ import org.springframework.web.client.RestTemplate;
 
 import com.laderrco.streamsage.services.Interfaces.AIResponseService;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class AIResponseServiceImpl implements AIResponseService{
     
     private final RestTemplate restTemplate;
     final String url = "http://localhost:50001/api/v1/generate"; 
 
-    public AIResponseServiceImpl(RestTemplateBuilder restTemplate) {
+    public AIResponseServiceImpl(RestTemplateBuilder restTemplateBuilder) {
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory(); //HTTP/1.1
-        this.restTemplate = restTemplate
-            .requestFactory(() -> requestFactory)    
+        this.restTemplate = restTemplateBuilder
+            .requestFactory(() -> requestFactory)
             .build();
+    }
+
+    public AIResponseServiceImpl() {
+        this.restTemplate = new RestTemplate();
     }
 
     @Override

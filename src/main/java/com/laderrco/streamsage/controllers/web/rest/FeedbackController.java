@@ -54,14 +54,6 @@ public class FeedbackController {
         if (suggestionPackage == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Handle case where package isn't found
         }
-
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            String token = authorizationHeader.substring(7);
-            if (tokenService.decrypt(token) != null) {
-                System.out.println("user exists");
-                session.setAttribute("suggestionPackage", suggestionPackage);             
-            }
-        }
     
         // we can use sessions for the prompt input
         session.removeAttribute("suggestionPackage"); 

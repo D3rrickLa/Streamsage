@@ -18,8 +18,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -27,6 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.laderrco.streamsage.configuration.PasetoAuthenticationFilter;
+import com.laderrco.streamsage.configuration.SecurityConfig;
 import com.laderrco.streamsage.controllers.web.rest.UserController;
 import com.laderrco.streamsage.domains.Enums.Roles;
 import com.laderrco.streamsage.dtos.AuthenticationRequest;
@@ -47,6 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = UserController.class)
 @AutoConfigureMockMvc
 @WithMockUser(username = "testUser", roles = "USER")
+@Import(SecurityConfig.class)
 public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -62,6 +66,9 @@ public class UserControllerTest {
 
     @MockitoBean
     private TokenService tokenService;
+
+    @MockitoBean
+    private AuthenticationProvider authenticationProvider;
 
     @MockitoBean
     private PasetoAuthenticationFilter pasetoAuthenticationFilter;
@@ -127,6 +134,26 @@ public class UserControllerTest {
             .andExpect(jsonPath("$.firstName").value("John"))
             .andExpect(jsonPath("$.lastName").value("Doe"))
             .andExpect(jsonPath("$.email").value("testUser@email.com"));
+    }
+
+    @Test
+    void testGetUserInfo_NoEmail() throws Exception {
+        MockHttpSession mockSession = new MockHttpSession(); 
+        mockSession.setAttribute("userEmail", "testUser@email.com"); // Ensure a valid email is set
+
+        User mockUser = User.builder()
+            .firstName("John")
+            .lastName("Doe")
+            .email("testUser@email.com")
+            .password("testing")
+            .build();
+
+        when(userService.findByEmail("testUser@email.com")).thenReturn(Optional.of(mockUser));    
+        
+        mockMvc.perform(get("/api/v1/accounts/profile")
+            // .session(mockSession) // Pass the mocked session
+            .with(csrf()))
+            .andExpect(status().isUnauthorized());
     }
 
     @Test
