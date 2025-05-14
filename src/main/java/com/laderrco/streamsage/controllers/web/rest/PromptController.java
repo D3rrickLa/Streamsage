@@ -1,7 +1,6 @@
 package com.laderrco.streamsage.controllers.web.rest;
 
 import java.util.Locale;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,11 +46,14 @@ public class PromptController {
         String promptResponse = aiResponseService.sendPrompt(prompt.getPrompt());
         // System.out.println(promptResponse);
         suggestionPackage = recommendationService.returnSuggestionPackage(prompt, promptResponse);
-        redisCacheService.saveToCache(prompt.getPrompt(), suggestionPackage);
-        checkUserHasBearer(session, authorizationHeader, suggestionPackage);
-        
-    
-        return new ResponseEntity<>(suggestionPackage, HttpStatus.CREATED);
+        if (suggestionPackage.getRecommendationList() != null) {
+            redisCacheService.saveToCache(prompt.getPrompt(), suggestionPackage);
+            checkUserHasBearer(session, authorizationHeader, suggestionPackage);
+            return new ResponseEntity<>(suggestionPackage, HttpStatus.CREATED);
+            
+        }
+
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private void checkUserHasBearer(HttpSession session, String authorizationHeader, SuggestionPackage suggestionPackage) {

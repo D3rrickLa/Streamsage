@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class RedisCacheService {
+    
     private final RedisTemplate<String, SuggestionPackage> redisTemplate;
 
     public SuggestionPackage fetchFromRedis(String prompt) {
@@ -26,7 +27,7 @@ public class RedisCacheService {
             // cachedRecommendation.setLastAccessed(System.currentTimeMillis());
         
             // save and update cahce 
-            redisTemplate.opsForValue().set(normalizedQuery, cachedRecommendation, Duration.ofMinutes(30L));
+            redisTemplate.opsForValue().set(normalizedQuery, cachedRecommendation, Duration.ofMinutes(15L));
             return cachedRecommendation;
         }
 

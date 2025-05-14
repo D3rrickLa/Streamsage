@@ -7,7 +7,9 @@ import java.util.regex.Pattern;
 public class QueryNormalizer {
     
     public static String normalizeQuery(String query) {
-        if (query == null) return null;
+        if (query == null) {
+            return null;
+        }
 
         String lower = query.toLowerCase().trim();
         String title = extractMovieOrShowTitle(lower);

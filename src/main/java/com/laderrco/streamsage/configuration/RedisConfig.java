@@ -16,7 +16,7 @@ import com.laderrco.streamsage.domains.SuggestionPackage;
 @Configuration
 public class RedisConfig {
     @Bean
-    RedisTemplate<String, SuggestionPackage> redisTemplate(RedisConnectionFactory connectionFactory) {
+    public RedisTemplate<String, SuggestionPackage> redisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, SuggestionPackage> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
 

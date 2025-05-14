@@ -15,4 +15,9 @@ class StreamsageApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+    void mainMethodRunsWithoutException() {
+        StreamsageApplication.main(new String[]{});
+    }
+
 }

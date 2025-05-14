@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.laderrco.streamsage.domains.SuggestionPackage;
 import com.laderrco.streamsage.dtos.FeedbackDTO;
 import com.laderrco.streamsage.entities.Feedback;
-import com.laderrco.streamsage.services.TokenService;
 import com.laderrco.streamsage.services.Interfaces.FeedbackService;
 
 import jakarta.servlet.http.HttpSession;
@@ -29,7 +28,6 @@ import lombok.AllArgsConstructor;
 public class FeedbackController {
    
     private final FeedbackService feedbackService;
-    private final TokenService tokenService;
 
     @GetMapping(value = {"", "/"}) // limit this by role
     @PreAuthorize("hasRole('ADMIN')") // Explicitly use ROLE_ prefix
