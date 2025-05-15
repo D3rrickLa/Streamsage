@@ -246,3 +246,5 @@ ai-model-python/Scripts
 ai-model-python/Include
 
 db-init
+
+.env*

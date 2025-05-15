@@ -21,20 +21,6 @@ async def log_headers(request: Request, call_next):
     # print(dict(request.headers))
     return await call_next(request)
 
-async def main() -> None:
-    try:
-        config = uvicorn.Config("ai_model_api:app", host="localhost", port=50001, reload=True)
-        server = uvicorn.Server(config=config)
-        print("Starting Server")
-        await server.serve()  # Start server
-    except KeyboardInterrupt:
-        print("Server stopping by user")
-    except Exception as e:
-        print(f"Error in main loop: {e}")
-    finally:
-        print("Shutting down server...")
-        await server.shutdown()  # Ensure the proper shutdown call
-        await sleep(1)  # Small delay to allow clean exit
-
 if __name__ == "__main__":
-    asyncio.run(main())
+    print("Starting server...")
+    uvicorn.run("app.main:app", host="localhost", port=50001, reload=True)
