@@ -6,10 +6,9 @@ import org.springframework.cache.annotation.EnableCaching;
 
 @EnableCaching
 @SpringBootApplication(
-	// exclude = {
-	// 	org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration.class,
-	// 	org.springframework.boot.autoconfigure.session.SessionAutoConfiguration.class
-	// }
+	exclude = {
+		org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration.class
+	}
 )
 public class StreamsageApplication {
 

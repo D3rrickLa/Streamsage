@@ -244,3 +244,5 @@ cython_debug/
 # Scripts Folder and other things
 ai-model-python/Scripts
 ai-model-python/Include
+
+db-init
