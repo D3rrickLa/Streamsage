@@ -62,3 +62,8 @@ Feedback: Gather feedback from users and improve the product.
         }
         don't think we need this becaue the check is already there is suggestionPackage is empty
         if empty we know no user has been logged in
+
+
+  NOTE: we can't have the postgres and redis bundled into the docker compose file
+  becasue we are going to be using cloud providers for these things, need to keep
+  it modular 

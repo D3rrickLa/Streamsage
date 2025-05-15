@@ -53,7 +53,7 @@ public class MediaLookupServiceTest {
     private RestTemplate restTemplate;
 
     @Mock
-    private ObjectMapper objectMapper;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @InjectMocks
     private MediaLookupServiceImpl mediaLookupService;
@@ -63,7 +63,7 @@ public class MediaLookupServiceTest {
     public void init() {
         MockitoAnnotations.openMocks(this);
         when(restTemplateBuilder.build()).thenReturn(restTemplate); // Make sure builder returns the mocked RestTemplate
-        mediaLookupService = new MediaLookupServiceImpl(restTemplateBuilder, localeService);
+        mediaLookupService = new MediaLookupServiceImpl(restTemplateBuilder, localeService, objectMapper);
     }
 
 
@@ -119,9 +119,6 @@ public class MediaLookupServiceTest {
 
         // Assert
         assertNull(bestMatch);
-        // assertNotNull(bestMatch);
-        // assertEquals("Movie B", bestMatch.getOriginalTitle());
-        // assertEquals(200, bestMatch.getVoteCount()); // Assuming `vote_count` is mapped in MovieInfoDTO
     }
 
     @Test

@@ -29,17 +29,14 @@ public class MediaLookupServiceImpl implements MediaLookupService{
     @Value("${env.token.TMDB_KEY}")
     private String API_KEY;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-    
-
+    private final ObjectMapper objectMapper;
     private final LocaleService localeService;
-
     private final RestTemplate restTemplate;
 
 
     @Autowired
-    public MediaLookupServiceImpl(RestTemplateBuilder builder, LocaleService localeService) {
+    public MediaLookupServiceImpl(RestTemplateBuilder builder, LocaleService localeService, ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
         this.restTemplate = builder.build();   
         this.localeService = localeService;
     }

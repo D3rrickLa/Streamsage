@@ -3,6 +3,7 @@ package com.laderrco.streamsage.controllers.web.rest;
 import java.util.Locale;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -30,6 +31,11 @@ public class PromptController {
     private final RecommendationService recommendationService;
     private final RedisCacheService redisCacheService;
     private final TokenService tokenService;
+
+    @GetMapping(value = {"","/"})
+    public ResponseEntity<String> hearbeat() {
+        return ResponseEntity.ok("Server is up and runnin");
+    }
     
     @PostMapping(value = {"","/"}, consumes="application/json")
     public ResponseEntity<SuggestionPackage> sendPrompt(

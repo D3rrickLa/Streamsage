@@ -65,6 +65,7 @@ public class TokenServiceTest {
 
     @Test
     void testEncrypt_Correct() {
+        tokenService.testSetAPIandFooter();
         AppToken appTokenTest = new AppToken();
         appTokenTest.setExpiresDate(Instant.now());
         appTokenTest.setUserId("1L");
