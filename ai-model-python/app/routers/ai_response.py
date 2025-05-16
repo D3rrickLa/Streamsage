@@ -16,17 +16,11 @@ client = ollama.Client(host=OLLAMA_URL)
 @ai_response_router.get(f"{ENDPOINT}/")
 @limiter.limit("30/minute")
 async def root(request: Request):
-    return {"message" : "Alive and well. " + OLLAMA_URL +" amongus"}
-
-@ai_response_router.get(f"{ENDPOINT}/1")
-@limiter.limit("30/minute")
-async def root2(request: Request):
-    return {"message" : "Alive and well. " + OLLAMA_URL +" amongus"}
+    return {"message" : "Alive and well."}
 
 @ai_response_router.post(f"{ENDPOINT}/generate")
 @limiter.limit("10/minute")
 async def generate_media(request: Request, body: PromptRequestDTO): 
-    print("testing")
     response = client.chat(
         model="mistral:7b",
         messages=[{"role": "user", "content": body.prompt}],  # Ensure correct format
