@@ -1,3 +1,4 @@
+import os
 import re
 import ollama
 
@@ -8,18 +9,27 @@ from app.util.rate_limit import limiter
 ai_response_router = APIRouter()
 
 ENDPOINT = "/api/v1"
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434")
+client = ollama.Client(host=OLLAMA_URL)
+
 
 @ai_response_router.get(f"{ENDPOINT}/")
 @limiter.limit("30/minute")
-async def heartbeat(request: Request):
-    return {"message" : "Alive and well."}
+async def root(request: Request):
+    return {"message" : "Alive and well. " + OLLAMA_URL +" amongus"}
+
+@ai_response_router.get(f"{ENDPOINT}/1")
+@limiter.limit("30/minute")
+async def root2(request: Request):
+    return {"message" : "Alive and well. " + OLLAMA_URL +" amongus"}
 
 @ai_response_router.post(f"{ENDPOINT}/generate")
 @limiter.limit("10/minute")
 async def generate_media(request: Request, body: PromptRequestDTO): 
-    response = ollama.chat(
+    print("testing")
+    response = client.chat(
         model="mistral:7b",
-        messages=[{"role": "user", "content": body.prompt}]  # Ensure correct format
+        messages=[{"role": "user", "content": body.prompt}],  # Ensure correct format
     )
     ai_response = response.get("message", {}).get("content", "") 
     message_text = parse_ai_response(ai_response)

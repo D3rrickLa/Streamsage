@@ -36,4 +36,5 @@ env:
     paseto:
       SECRET: ${token_secret_key}
       FOOTER: ${paseto_footer}
+  python_endpoint: ${python_endpoint}
 

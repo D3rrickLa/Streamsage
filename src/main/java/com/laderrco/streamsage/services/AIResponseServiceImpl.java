@@ -1,7 +1,9 @@
 package com.laderrco.streamsage.services;
 
+import java.net.URI;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
@@ -16,13 +18,19 @@ import lombok.AllArgsConstructor;
 public class AIResponseServiceImpl implements AIResponseService{
     
     private final RestTemplate restTemplate;
-    final String url = "http://localhost:50001/api/v1/generate"; 
+    
+    @Value("${env.python_endpoint}")
+    private String url; 
 
     public AIResponseServiceImpl(RestTemplateBuilder restTemplateBuilder) {
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory(); //HTTP/1.1
         this.restTemplate = restTemplateBuilder
             .requestFactory(() -> requestFactory)
             .build();
+    }
+
+    public AIResponseServiceImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     public AIResponseServiceImpl() {
@@ -33,7 +41,7 @@ public class AIResponseServiceImpl implements AIResponseService{
     public String sendPrompt(String prompt) {
         
         Map<String, String> requestBody = Map.of("prompt", prompt);
-        String responseBody = restTemplate.postForObject(url, requestBody, String.class);
+        String responseBody = restTemplate.postForObject(URI.create(url), requestBody, String.class);
         return responseBody;
 
     }

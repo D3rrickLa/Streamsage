@@ -29,6 +29,8 @@ services:
       - postgres_db=${postgres_db}
       
       - TMDB_KEY=${TMDB_KEY}
+
+      - python_endpoint=${python_endpoint}
       
 
 # The commented out section below is an example of how to define a PostgreSQL
@@ -41,6 +43,8 @@ services:
       db:
         condition: service_healthy
       redis:    
+        condition: service_started
+      python_service:
         condition: service_started
     networks:
       - backend_network
@@ -69,7 +73,6 @@ services:
     networks:
       - backend_network
 
-
   redis:
     image: redis
     container_name: ${redis_host}
@@ -81,6 +84,18 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - backend_network
+
+  python_service:
+    container_name: python_service
+    command: sh -c "uvicorn app.main:app --host 0.0.0.0 --port 50001"
+    build: 
+      context: ./ai-model-python 
+    environment:
+      OLLAMA_URL: ${ollama_url}
+    ports:
+      - 50001:50001
     networks:
       - backend_network
 
