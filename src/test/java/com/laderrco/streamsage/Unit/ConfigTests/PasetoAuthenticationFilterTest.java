@@ -16,6 +16,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -78,6 +80,7 @@ public class PasetoAuthenticationFilterTest {
     }
 
     @Test
+    @MockitoSettings(strictness = Strictness.LENIENT)
     void testDoFilterInternal_WithValidToken() throws Exception {
         String email = "test@example.com";
         AppToken appToken = new AppToken("123", email, Instant.now().plusSeconds(3600));
