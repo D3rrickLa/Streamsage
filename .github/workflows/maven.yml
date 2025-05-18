@@ -29,7 +29,7 @@ jobs:
         cache: maven
 
     - name: set up Docker Compose 
-      run: docker-compose up -d
+      run: docker compose up -d
     - name: Wait for Services
       run: | 
         echo "waiting for DB to be ready..."
