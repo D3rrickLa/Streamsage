@@ -29,7 +29,8 @@ jobs:
         cache: maven
 
     - name: set up Docker Compose 
-      run: docker compose up -d
+      run: docker compose up -d --build
+      
     - name: Wait for Services
       run: | 
         echo "waiting for DB to be ready..."
@@ -52,4 +53,8 @@ jobs:
         
       
     - name: Run Tests
-      run: SPRING_PROFILES_ACTIVE=test mvn test
+      run: SPRING_PROFILES_ACTIVE=test mvn test -e
+
+    - name: Print test logs on failure
+      if: failure()
+      run: cat target/surefire-reports/*.txt || true
