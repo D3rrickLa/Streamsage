@@ -27,6 +27,8 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
-        
+    
+    - name: set up Docker Compose 
+      run: docker compose up --build    
     - name: Run Tests
       run: SPRING_PROFILES_ACTIVE=test mvn test
