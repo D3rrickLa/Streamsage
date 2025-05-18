@@ -41,6 +41,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return AuthenticationResponse.builder().token(pasetoToken).build();
     }
 
+    // seeing 2 select queries because auth manager does a findbyemail or whatever through userdetails
+    // and we have another findby email at line 55
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         try {

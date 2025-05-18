@@ -18,3 +18,58 @@ unit - core parts of methods
 integration - dry run (MockMVC + RestTemplate)
 
 https://stackoverflow.com/questions/39865596/difference-between-using-mockmvc-with-springboottest-and-using-webmvctest
+
+
+
+- how to cache recommendation with redis?
+- the problem is that 2 people can type in different sentences to get the same result, redis using key mappings can't really do that unless
+  - we brute force it by stripping for common 'variables'
+  - use NLP...
+
+
+<!-- NOTE:
+our Python server runs on HTTP/1.1, to fix this we are on the spring side referencing 1.1, but you can also get aroudn this with TLS
+
+ -->
+
+
+ Summary:
+Address Remaining Issues: Fix any bugs and review code quality.
+
+Testing: Complete integration testing and consider increasing coverage.
+
+Code Review: Self-review and request peer reviews.
+
+Performance & Security: Optional performance tests and security audits.
+
+Documentation: Document your code and potential future improvements.
+
+Deploy: Deploy your app and check configurations.
+
+Monitoring: Set up monitoring/logging for production.
+
+Feedback: Gather feedback from users and improve the product.
+
+
+
+
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            if (tokenService.decrypt(token) != null) {
+                System.out.println("user exists");
+                session.setAttribute("suggestionPackage", suggestionPackage);             
+            }
+        }
+        don't think we need this becaue the check is already there is suggestionPackage is empty
+        if empty we know no user has been logged in
+
+
+  NOTE: we can't have the postgres and redis bundled into the docker compose file
+  becasue we are going to be using cloud providers for these things, need to keep
+  it modular 
+
+
+
+  we do have something for our redis to do this format: movie:amoutn
+  - when we ask the ai to gen N movies, it gives us N in a list - mighit not be accurate but still is a number
+  - we can use that to append the thing and the current code does get use our movie...

@@ -32,7 +32,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.laderrco.streamsage.domains.AvailableService;
 import com.laderrco.streamsage.dtos.MovieInfoDTO;
@@ -64,7 +63,7 @@ public class MediaLookupServiceTest {
     public void init() {
         MockitoAnnotations.openMocks(this);
         when(restTemplateBuilder.build()).thenReturn(restTemplate); // Make sure builder returns the mocked RestTemplate
-        mediaLookupService = new MediaLookupServiceImpl(restTemplateBuilder, localeService);
+        mediaLookupService = new MediaLookupServiceImpl(restTemplateBuilder, localeService, objectMapper);
     }
 
 
@@ -73,8 +72,8 @@ public class MediaLookupServiceTest {
     void testApiResponse_ReturnsCorrectResponse() {
         // Arrange
         String mediaName = "Inception";
-        String expectedUrl = "https://api.themoviedb.org/3/search/movie?query=" + mediaName +
-                             "&language=en-US&page=1";
+        // String expectedUrl = "https://api.themoviedb.org/3/search/movie?query=" + mediaName +
+        //                      "&language=en-US&page=1";
         
         when(localeService.getUserLocale()).thenReturn(LocaleContextHolder.getLocale());
         
@@ -82,7 +81,7 @@ public class MediaLookupServiceTest {
         headers.setBearerAuth("Bearer API_KEY");
         headers.setContentType(MediaType.APPLICATION_JSON);
         
-        HttpEntity<String> entity = new HttpEntity<>(headers);
+        // HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<String> mockResponse = ResponseEntity.ok("{\"mockKey\": \"mockValue\"}");
 
         when(restTemplate.exchange(
@@ -120,9 +119,6 @@ public class MediaLookupServiceTest {
 
         // Assert
         assertNull(bestMatch);
-        // assertNotNull(bestMatch);
-        // assertEquals("Movie B", bestMatch.getOriginalTitle());
-        // assertEquals(200, bestMatch.getVoteCount()); // Assuming `vote_count` is mapped in MovieInfoDTO
     }
 
     @Test
@@ -161,7 +157,7 @@ public class MediaLookupServiceTest {
             .thenReturn(mockResponse);
 
         // Mock JSON parsing
-        JsonNode mockRootNode = objectMapper.readTree(mockJson);
+        // JsonNode mockRootNode = objectMapper.readTree(mockJson);
         // when(objectMapper.readTree(mockResponse.getBody())).thenReturn(mockRootNode);
 
         // Act

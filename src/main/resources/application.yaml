@@ -1,24 +1,44 @@
-security:
-    ignored: /**
 spring:
     application:
         name: streamsage
     jpa:
       show-sql: true
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
       hibernate:
         ddl-auto: update
-    h2:
-      console:
-        enabled: true
     datasource:
-      url: jdbc:h2:mem:testdb
+      url: ${postgres_sql_url}//${postgres_host}:${postgres_port}/${postgres_db}
+      # url: ${postgres_sql_url}//localhost:${postgres_port}/${postgres_db}
+      username: ${postgres_username}
+      password: ${postgres_password}
+      driver-class-name: org.postgresql.Driver
+    data:
+      redis:
+        port: ${redis_port}
+        host: ${redis_host}
+      repositories:
+        enabled: false  
+    cache:
+      type: redis
+    
+    docker: # spring does this cool thing of composing and decompose docker files if you have a compose file...
+      compose:
+        enabled: true
+        file: compose.yaml
+        lifecycle-management: start-and-stop
+    
 server:
   port: 50000
+  compression:
+    enabled: 'true'
+    mime-types: application/json,text/css,application/javascript
+    min-response-size: '1024'
 
 env:
   token:
     TMDB_KEY: ${TMDB_KEY}
     paseto:
       SECRET: ${token_secret_key}
-      FOOTER: poc-paseto
+      FOOTER: ${paseto_footer}
+  python_endpoint:  ${python_endpoint}
 

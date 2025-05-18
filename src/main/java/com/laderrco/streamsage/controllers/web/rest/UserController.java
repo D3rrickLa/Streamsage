@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +41,7 @@ public class UserController {
     private final UserDeletionService userDeletionService;
     private final TokenService tokenService;
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PutMapping("/profile") // want to seperate out the email and other info, don't need to generate a new token each time your name chagnes
     public ResponseEntity<AuthenticationResponse> updateUserInfo(@RequestBody UserInfoDTO updatedInfoDTO) throws Exception {
         Long userId = userService.findIdByEmail();
@@ -50,6 +52,7 @@ public class UserController {
         return ResponseEntity.ok(authenticationResponse);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/profile")
     public ResponseEntity<UserInfoDTO> getUserInfo(HttpSession session) throws Exception {
         String userEmail = (String) session.getAttribute("userEmail");
@@ -64,7 +67,7 @@ public class UserController {
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)); // Return 404 instead of exception
     }
 
-
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PutMapping("/password") // we might want to update tokens/invalidate them as well
     public ResponseEntity<String> updatePassword(@RequestBody CredentialsDTO credentialsDTO) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -73,6 +76,7 @@ public class UserController {
         return ResponseEntity.ok("Password has been updated successfully");
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping("/delete")
     public ResponseEntity<String> deleteUser(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         /*

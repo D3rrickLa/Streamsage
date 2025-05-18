@@ -1,14 +1,17 @@
 package com.laderrco.streamsage.entities;
 
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.type.SqlTypes;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.laderrco.streamsage.domains.SuggestionPackage;
-import com.laderrco.streamsage.domains.converters.SuggestionPackageAttributeConverter;
 
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.Convert;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -39,18 +42,17 @@ public class Feedback {
     @Lob
     private String comment;
 
-    @Convert(converter = SuggestionPackageAttributeConverter.class)
-    @Lob
+    @Type(JsonBinaryType.class)
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "JSONB")
     private SuggestionPackage suggestionPackage;
 
-    // NOTE: this might be an issue if not lazy in the long run
     @ManyToOne
     @JsonIgnoreProperties({"password"})
     @OnDelete(action = OnDeleteAction.CASCADE) // Automatically delete feedback when user is deleted
     private User user;
 
     private Long timestamp;
-    
 
     public Feedback(String comments, Integer rating, SuggestionPackage suggestionPackage) {
         this.comment = comments;

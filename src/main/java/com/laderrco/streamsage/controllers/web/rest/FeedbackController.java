@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,14 +35,18 @@ public class FeedbackController {
         return feedbackService.findAll();
     }
     
+    // this needs to be worked so that we can get specific users feedback (i.e. a user can look up their feedback)
     @GetMapping(value="{id}") // limit this by role
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public Optional<Feedback> getIndividualFeedback(@PathVariable("id") Long id) {
         return feedbackService.findById(id);
     }
-
+    
     @PostMapping(value = {"","/"})
-    public ResponseEntity<Feedback> saveFeedback(HttpSession session, @RequestBody FeedbackDTO feedback) {
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public ResponseEntity<Feedback> saveFeedback(HttpSession session, @RequestBody FeedbackDTO feedback, @RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
+        System.out.println("TERSTING");
+        
         SuggestionPackage suggestionPackage = (SuggestionPackage) session.getAttribute("suggestionPackage");
 
         if (suggestionPackage == null) {

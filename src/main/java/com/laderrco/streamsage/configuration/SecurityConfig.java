@@ -34,9 +34,8 @@ public class SecurityConfig {
             .headers((header) -> header.frameOptions((frameOptions) -> frameOptions.disable()))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/v1/auth/**").permitAll()
-                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/api/v1/prompts/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/feedbacks").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.POST, "/api/v1/prompts").permitAll()
                 .anyRequest().authenticated()
             )
             
