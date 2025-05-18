@@ -44,7 +44,7 @@ public class Feedback {
 
     @Type(JsonBinaryType.class)
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "JSONB")
     private SuggestionPackage suggestionPackage;
 
     @ManyToOne

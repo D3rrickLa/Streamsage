@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.laderrco.streamsage.services.Interfaces.AIResponseService;
 
+import io.jsonwebtoken.io.IOException;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -38,12 +40,15 @@ public class AIResponseServiceImpl implements AIResponseService{
     }
 
     @Override
-    public String sendPrompt(String prompt) {
+    public String sendPrompt(String prompt) throws IOException {
         
         Map<String, String> requestBody = Map.of("prompt", prompt);
-        String responseBody = restTemplate.postForObject(URI.create(url), requestBody, String.class);
-        return responseBody;
-
+        try {
+            String responseBody = restTemplate.postForObject(URI.create(url), requestBody, String.class);
+            return responseBody;
+        } catch (RestClientException e) {
+            throw new IOException("Failed to connect to Python service at " + url, e);
+        }
     }
     
 }

@@ -34,7 +34,7 @@ public class QueryNormalizerTest {
         String testQuery = QueryNormalizer.normalizeQuery("give me 5 movies like Star Wars");
     
         assertNotNull(testQuery);
-        assertEquals("recommendations:similar_to:star wars", testQuery);
+        assertEquals("recommendations:similar_to:star wars:5", testQuery);
     }
     
     @Test

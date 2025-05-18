@@ -13,7 +13,8 @@ public class QueryNormalizer {
 
         String lower = query.toLowerCase().trim();
         String title = extractMovieOrShowTitle(lower);
-        return title != null ? "recommendations:similar_to:" + title : "recommendations:unknown";
+        Integer quantity = extractQuantity(query);
+        return title != null ? "recommendations:similar_to:" + title + ":" + quantity : "recommendations:unknown";
     }
 
     private static String extractMovieOrShowTitle(String query) {
@@ -44,5 +45,15 @@ public class QueryNormalizer {
         // Remove trailing words like "please", "?", ".", etc.
         raw = raw.replaceAll("(\\s+(please|now|thanks|movies|shows)[.!?,]*)*$", "");
         return raw.trim().replaceAll("\\s{2,}", " ");
+    }
+
+    private static Integer extractQuantity(String input) {
+        Pattern pattern = Pattern.compile("\\d+\\s*(series|shows|movies|examples)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(input);
+        
+        if (matcher.find()) {
+            return Integer.parseInt(matcher.group().replaceAll("[^0-9]", ""));
+        }
+        return -1;
     }
 }

@@ -1,5 +1,6 @@
 package com.laderrco.streamsage.controllers.web.rest;
 
+import java.io.IOException;
 import java.util.Locale;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.laderrco.streamsage.domains.Prompt;
 import com.laderrco.streamsage.domains.SuggestionPackage;
 import com.laderrco.streamsage.services.RedisCacheService;
@@ -40,7 +39,7 @@ public class PromptController {
     @PostMapping(value = {"","/"}, consumes="application/json")
     public ResponseEntity<SuggestionPackage> sendPrompt(
         HttpSession session, @RequestBody Prompt prompt, @RequestHeader("Accept-Language") Locale locale, 
-        @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws JsonMappingException, JsonProcessingException {
+        @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws IOException {
 
         // call redis here
         SuggestionPackage suggestionPackage = redisCacheService.fetchFromRedis(prompt.getPrompt());

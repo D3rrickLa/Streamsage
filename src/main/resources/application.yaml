@@ -6,9 +6,6 @@ spring:
       database-platform: org.hibernate.dialect.PostgreSQLDialect
       hibernate:
         ddl-auto: update
-    h2:
-      console:
-        enabled: false
     datasource:
       url: ${postgres_sql_url}//${postgres_host}:${postgres_port}/${postgres_db}
       username: ${postgres_username}
@@ -22,6 +19,12 @@ spring:
         enabled: false  
     cache:
       type: redis
+    
+    docker: # spring does this cool thing of composing and decompose docker files if you have a compose file...
+      compose:
+        enabled: true
+        file: compose.yaml
+        lifecycle-management: start-and-stop
     
 server:
   port: 50000

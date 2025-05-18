@@ -67,3 +67,9 @@ Feedback: Gather feedback from users and improve the product.
   NOTE: we can't have the postgres and redis bundled into the docker compose file
   becasue we are going to be using cloud providers for these things, need to keep
   it modular 
+
+
+
+  we do have something for our redis to do this format: movie:amoutn
+  - when we ask the ai to gen N movies, it gives us N in a list - mighit not be accurate but still is a number
+  - we can use that to append the thing and the current code does get use our movie...
