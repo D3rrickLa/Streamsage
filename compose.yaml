@@ -58,10 +58,11 @@ services:
     ports:
       - 5432:5432
     healthcheck:
-      test: [ "CMD", "pg_isready" ]
+      test: ["CMD-SHELL", "pg_isready -U postgres || exit 1"]      
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 5  
+      start_period: 45s  # Give it extra startup time
     networks:
       - backend_network
 
