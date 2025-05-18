@@ -6,7 +6,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@TestConfiguration
+@TestConfiguration(proxyBeanMethods = false)
 public class TestConfig {
 
     @Bean
