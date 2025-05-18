@@ -27,5 +27,29 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
+
+    - name: set up Docker Compose 
+      run: docker compose up -d
+    - name: Wait for Services
+      run: | 
+        echo "waiting for DB to be ready..."
+        until nc -z localhost 5432; do
+          sleep 2
+        done
+        echo "Postgres is ready."
+
+        echo "waiting for Redis to be ready..."
+        until nc -z localhost 6379; do
+          sleep 2
+        done
+        echo "Redis is ready."
+        
+        echo "waiting for Python Service to be ready..."
+        until nc -z localhost 50001; do
+          sleep 2
+        done
+        echo "Python is ready."
+        
+      
     - name: Run Tests
-      run: mvn test
+      run: SPRING_PROFILES_ACTIVE=test mvn test
