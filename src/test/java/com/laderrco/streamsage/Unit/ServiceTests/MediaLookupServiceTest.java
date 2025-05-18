@@ -53,7 +53,7 @@ public class MediaLookupServiceTest {
     private RestTemplate restTemplate;
 
     @Mock
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper;
 
     @InjectMocks
     private MediaLookupServiceImpl mediaLookupService;

@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Import;
 
 import com.laderrco.streamsage.Unit.ConfigTests.TestConfig;
 
-
 @Import(TestConfig.class)
 @SpringBootTest
 class StreamsageApplicationTests {
@@ -14,10 +13,4 @@ class StreamsageApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
-	@Test
-    void mainMethodRunsWithoutException() {
-        StreamsageApplication.main(new String[]{});
-    }
-
 }

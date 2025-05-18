@@ -8,6 +8,7 @@ spring:
         ddl-auto: update
     datasource:
       url: ${postgres_sql_url}//${postgres_host}:${postgres_port}/${postgres_db}
+      # url: ${postgres_sql_url}//localhost:${postgres_port}/${postgres_db}
       username: ${postgres_username}
       password: ${postgres_password}
       driver-class-name: org.postgresql.Driver
@@ -39,5 +40,5 @@ env:
     paseto:
       SECRET: ${token_secret_key}
       FOOTER: ${paseto_footer}
-  python_endpoint: ${python_endpoint}
+  python_endpoint:  ${python_endpoint}
 
