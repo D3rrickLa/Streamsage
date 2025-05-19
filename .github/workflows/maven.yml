@@ -18,6 +18,12 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
+      POSTGRES_DB: ${{secrets.POSTGRES_DB}}
+      POSTGRES_USER: ${{secrets.POSTGRES_USER}}
+
+
 
     steps:
     - uses: actions/checkout@v4
@@ -27,6 +33,12 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
-        
+    
+    - name: set up Docker Compose 
+          echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> .env
+          echo "POSTGRES_DB=${POSTGRES_DB}" >> .env
+          echo "POSTGRES_USER=${POSTGRES_USER}" >> .env
+    - name: Start services
+      run: docker compose up --build    
     - name: Run Tests
       run: SPRING_PROFILES_ACTIVE=test mvn test
