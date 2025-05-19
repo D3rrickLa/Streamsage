@@ -26,7 +26,7 @@ import com.laderrco.streamsage.services.Interfaces.MediaLookupService;
 @Service
 public class MediaLookupServiceImpl implements MediaLookupService{
     
-    @Value("${env.token.TMDB_KEY}")
+    @Value("${env.TMDB_KEY}")
     private String API_KEY;
 
     private final ObjectMapper objectMapper;
