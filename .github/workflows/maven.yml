@@ -16,9 +16,20 @@ on:
 
 jobs:
   build:
+    services:
+        docker:
+          image: docker:dind
 
+    env:
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      DOCKER_HOST: "tcp://localhost:2375"
+      
+    
+        
     runs-on: ubuntu-latest
-
+    
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 21
@@ -27,6 +38,15 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
+
+    - name: set up docker
+      run: |
+        docker --version
+        sudo systemctl start docker
+        sleep 5
+
+    - name: debug env var
+      run: env | grep POSTGRES
     
     - name: Run Tests
-      run: SPRING_PROFILES_ACTIVE=test mvn test
+      run: SPRING_PROFILES_ACTIVE=test mvn test -X
