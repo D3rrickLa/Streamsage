@@ -27,7 +27,7 @@ jobs:
       token_secret_key: ${{secrets.TOKEN_SECRET_KEY}}
       paseto_footer: ${{secrets.PASETO_FOOTER}}
 
-      tmdb_key: ${{secrets.TMDB_KEY}}
+      token.TMDB_KEY:: ${{secrets.TMDB_KEY}}
       postgres_sql_url: ${{secrets.POSTGRES_SQL_URL}}
       DOCKER_HOST: "tcp://localhost:2375"
 
