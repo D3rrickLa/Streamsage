@@ -22,6 +22,7 @@ jobs:
 
     env:
       POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/${{ secrets.POSTGRES_DB }}
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       token_secret_key: ${{secrets.TOKEN_SECRET_KEY}}
       paseto_footer: ${{secrets.PASETO_FOOTER}}
@@ -29,6 +30,10 @@ jobs:
       tmdb_key: ${{secrets.TMDB_KEY}}
       postgres_sql_url: ${{secrets.POSTGRES_SQL_URL}}
       DOCKER_HOST: "tcp://localhost:2375"
+
+      SPRING_PROFILES_ACTIVE: test
+      SPRING_DATASOURCE_USERNAME: ${{ secrets.POSTGRES_USER }}
+      SPRING_DATASOURCE_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
          
     runs-on: ubuntu-latest
     
@@ -54,4 +59,4 @@ jobs:
       run: env | grep POSTGRES
     
     - name: Run Tests
-      run: SPRING_PROFILES_ACTIVE=test mvn test -X
+      run: mvn test -X
