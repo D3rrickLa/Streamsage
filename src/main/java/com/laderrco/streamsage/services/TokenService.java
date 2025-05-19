@@ -28,10 +28,10 @@ import io.jsonwebtoken.io.Decoders;
 @Service
 public class TokenService {
     
-    @Value("${env.token.paseto.SECRET}")
+    @Value("${env.paseto.SECRET}")
     private String secret;
     
-    @Value("${env.token.paseto.FOOTER}")
+    @Value("${env.paseto.FOOTER}")
     private String footer;
 
 
