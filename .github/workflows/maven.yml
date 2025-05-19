@@ -41,6 +41,9 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
+    - name: Debug environment variables
+      run: env | grep SPRING
+
     - name: set up docker
       run: |
         docker --version
