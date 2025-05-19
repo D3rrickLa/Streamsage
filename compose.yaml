@@ -46,8 +46,7 @@ services:
     restart: always
     user: postgres
     container_name: ${postgres_host}
-    # secrets:
-    #   - db-password
+
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./db-init:/docker-entrypoint-initdb.d # Mount the init script correctly
@@ -62,7 +61,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5  
-      start_period: 45s  # Give it extra startup time
+      start_period: 60s  # Give it extra startup time
     networks:
       - backend_network
 

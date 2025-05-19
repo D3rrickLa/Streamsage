@@ -35,10 +35,10 @@ server:
     min-response-size: '1024'
 
 env:
-  token:
-    TMDB_KEY: ${TMDB_KEY}
-    paseto:
-      SECRET: ${token_secret_key}
-      FOOTER: ${paseto_footer}
+  
+  TMDB_KEY: ${TMDB_KEY}
+  paseto:
+    SECRET: ${token_secret_key}
+    FOOTER: ${paseto_footer}
   python_endpoint:  ${python_endpoint}
 
