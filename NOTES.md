@@ -73,3 +73,37 @@ Feedback: Gather feedback from users and improve the product.
   we do have something for our redis to do this format: movie:amoutn
   - when we ask the ai to gen N movies, it gives us N in a list - mighit not be accurate but still is a number
   - we can use that to append the thing and the current code does get use our movie...
+
+
+
+  Core Components
+Prompt Component (prompt.component.ts) – Users enter prompts to get AI-based movie recommendations.
+
+Movie Recommendations Component (recommendations.component.ts) – Displays AI-generated movie suggestions.
+
+Authentication Components
+Login Component (auth/login.component.ts) – Handles user login.
+
+Signup Component (auth/signup.component.ts) – Allows new users to register.
+
+Auth Service (auth/auth.service.ts) – Manages authentication logic (JWT, API calls, etc.).
+
+User Profile & Feedback Components
+Profile Component (users/profile.component.ts) – Enables users to view and edit their details.
+
+Feedback Component (users/feedback.component.ts) – Displays and allows submission of feedback.
+
+Admin Dashboard (if you choose to implement it)
+Admin Component (admin/admin-dashboard.component.ts) – Manages system-wide data, reviews feedback, and monitors AI performance.
+
+UI Components
+Navbar Component (shared/navbar.component.ts) – Navigation bar for login, profile, and prompt sections.
+
+Footer Component (shared/footer.component.ts) – Displays site info.
+
+Loading Indicator Component (shared/loading.component.ts) – Shows a spinner while AI generates recommendations.
+
+Services
+Movie Service (services/movie.service.ts) – Handles API requests for movie recommendations.
+
+User Service (services/user.service.ts) – Manages user data and interactions.
