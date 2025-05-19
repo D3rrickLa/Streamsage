@@ -44,10 +44,9 @@ services:
   db:
     image: postgres
     restart: always
-    user: postgres
+    user: ${POSTGRES_USER}
     container_name: ${postgres_host}
-    # secrets:
-    #   - db-password
+
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./db-init:/docker-entrypoint-initdb.d # Mount the init script correctly
