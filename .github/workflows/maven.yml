@@ -10,9 +10,9 @@ name: Run Test on Push to Main
 
 on:
   push:
-    branches: [ "main", "development" ]
+    branches: [ "main", "development"]
   pull_request:
-    branches: [ "main" ]
+      branches: [ "main", "action-branch" ]
 
 jobs:
   build:
@@ -24,10 +24,10 @@ jobs:
       POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       token_secret_key: ${{secrets.TOKEN_SECRET_KEY}}
-      paseto_footer: $${{secrets.PASETO_FOOTER}}
+      paseto_footer: ${{secrets.PASETO_FOOTER}}
 
       tmdb_key: ${{secrets.TMDB_KEY}}
-      postgres_sql_url: $${{secrets.POSTGRES_SQL_URL}}
+      postgres_sql_url: ${{secrets.POSTGRES_SQL_URL}}
       DOCKER_HOST: "tcp://localhost:2375"
          
     runs-on: ubuntu-latest
