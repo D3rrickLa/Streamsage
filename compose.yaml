@@ -44,7 +44,7 @@ services:
   db:
     image: postgres
     restart: always
-    user: ${POSTGRES_USER}
+    user: postgres
     container_name: ${postgres_host}
 
     volumes:
