@@ -1,0 +1,13 @@
+a {
+    color: white;    
+}
+
+#brand-logo {
+    font-size: 25px;
+}
+
+#app-navbar {
+    background: linear-gradient(120deg, #793BE6, #5a84eb);
+    padding-top: 20px;
+    padding-bottom: 20px;
+}

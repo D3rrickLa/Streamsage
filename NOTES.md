@@ -107,3 +107,15 @@ Services
 Movie Service (services/movie.service.ts) – Handles API requests for movie recommendations.
 
 User Service (services/user.service.ts) – Manages user data and interactions.
+
+
+
+
+colors
+- #793BE6 -> main color
+- #C31DE0 -> gradient to 
+- #AA88E6 -> accent/secondary color
+- #423CE6 -> Background color
+
+- #37343C -> corp color 1
+- #564E66 -> corp color 2

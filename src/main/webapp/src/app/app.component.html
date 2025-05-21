@@ -1,18 +1,15 @@
-<main class="main">
-  <title>Streamsage</title>
-  <div class="container">
-      <app-prompt></app-prompt>
-      <app-auth></app-auth>
-  </div>
-</main>
-
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
+<html class="h-100" lang="en">
+  <body class="d-flex flex-column h-100" id="page-container">
+    <main class="flex-grow-1" id="content-wrap">
+      <title>Streamsage</title>
+      <div><app-navbar></app-navbar></div>
+      <div class="container">
+          <app-prompt></app-prompt>
+          <!-- <app-auth></app-auth> -->
+      </div>
+      <app-footer></app-footer>
+    </main>
+  </body>
+</html>
 
 <router-outlet />
