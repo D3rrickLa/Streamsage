@@ -36,9 +36,14 @@ export class PromptComponent {
 
   onSubmit() {
     console.log('Message sent:', this.message);
+    
+    const data = {
+      prompt: this.message
+    }
+    
     this.message = ''; // Clears the textarea after submission
     this.showButton = false; // Hides the button again
     
-    // Add form submission logic here
+    
   }
 }
