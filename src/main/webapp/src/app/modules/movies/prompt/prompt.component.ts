@@ -2,10 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RecommendationsComponent } from '../recommendations/recommendations.component';
+import { PromptService } from '../../../services/prompt.service';
+import { SuggestionPackage } from '../../../models/domains/suggestion-package';
 
 
 @Component({
   selector: 'app-prompt',
+  standalone: true,
   imports: [FormsModule, CommonModule, RecommendationsComponent],
   templateUrl: './prompt.component.html',
   styleUrl: './prompt.component.css'
@@ -13,7 +16,11 @@ import { RecommendationsComponent } from '../recommendations/recommendations.com
 export class PromptComponent {
   message: string = '';
   showButton: boolean = false;
+  recData: SuggestionPackage = new SuggestionPackage;
   @ViewChild('autoResizeTextarea') textarea!: ElementRef;
+
+
+  constructor(private promptService: PromptService) {}
   
   adjustHeight(event: Event) {
     const target = event.target as HTMLTextAreaElement;
@@ -41,7 +48,17 @@ export class PromptComponent {
       prompt: this.message
     }
     
-    this.message = ''; // Clears the textarea after submission
+
+    this.promptService.postPrompt(data).subscribe({
+      next: (data: SuggestionPackage) => {
+          console.log("Response from API:", data);
+          this.promptService.onAIResponse.emit(data);
+          this.recData = data;
+        },
+        error: (err) => console.error("Error occurred:", err)
+    })
+
+    // this.message = ''; // Clears the textarea after submission
     this.showButton = false; // Hides the button again
     
     

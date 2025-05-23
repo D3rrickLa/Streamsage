@@ -2,7 +2,9 @@ package com.laderrco.streamsage.services;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -94,7 +96,7 @@ public class MediaLookupServiceImpl implements MediaLookupService{
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
         ResponseEntity<String> responseBody = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
         
-        List<AvailableServiceDTO> dtos = new ArrayList<>();
+        Set<AvailableServiceDTO> dtos = new HashSet<>();
        
         try {
            JsonNode rootNode = objectMapper.readTree(responseBody.getBody());
@@ -104,7 +106,7 @@ public class MediaLookupServiceImpl implements MediaLookupService{
                 dtos.addAll(extractProviderDtos(localeProviders.path("buy")));
            }
 
-           return convertDtoToDomain(dtos, "rent/buy");
+           return convertDtoToDomain(new ArrayList<>(dtos), "rent/buy");
 
         } catch (Exception e) {
             e.printStackTrace();

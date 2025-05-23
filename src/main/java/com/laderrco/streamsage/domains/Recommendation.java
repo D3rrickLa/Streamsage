@@ -28,6 +28,7 @@ public class Recommendation implements Serializable {
     private String title;
     private RecommendationType recommendationType;
     private String description;
+    private String posterURL;
 
     private List<Genre> genres;
     private String releaseDate;

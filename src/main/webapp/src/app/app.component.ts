@@ -8,7 +8,7 @@ import { RecommendationsComponent } from './modules/movies/recommendations/recom
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, PromptComponent, AuthComponent, NavbarComponent, FooterComponent, RecommendationsComponent],
+  imports: [RouterOutlet, NavbarComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
