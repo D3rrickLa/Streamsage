@@ -54,6 +54,7 @@ public class RecommendationServiceImpl implements RecommendationService {
             Recommendation recommendation = Recommendation.builder()
                 .title(movieInfoDTO.getOriginalTitle())
                 .description(movieInfoDTO.getOverview())
+                .posterURL(movieInfoDTO.getPosterPath())
                 .recommendationType(RecommendationType.MEDIA)
                 .genres(movieInfoDTO.getGenres().stream()
                     .map(Genre::fromId)

@@ -1,0 +1,18 @@
+<main class="d-flex flex-column justify-content-center align-items-center min-vh-100">
+    <div>
+        <form (ngSubmit)="onSubmit()">
+            <div class="form-group textarea-container position-relative">
+                <label for="exampleFormControlTextarea1">Start Exploring</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" cols="100"
+                    [(ngModel)]="message" 
+                    [ngModelOptions]="{standalone: true}"
+                    (input)="handleInput($event)"
+                    #autoResizeTextarea
+                    (keydown)="handleKeyDown($event)">
+                </textarea>
+                <button *ngIf="showButton" class="send-button" type="submit">^</button>
+            </div>
+        </form>
+    </div>
+    <div class="mt-5"><app-recommendations [item]="recData"></app-recommendations></div>
+</main>

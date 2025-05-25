@@ -1,0 +1,29 @@
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <form (ngSubmit)="onSubmit()">
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="name" placeholder=" " name="email" [(ngModel)]="user.email" required>
+            <label for="name">Email </label>
+        </div>
+    
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="password" placeholder=" " name="password"  [(ngModel)]="user.password" required>
+            <label for="password">Password</label>
+        </div>
+    
+        <!-- Forgot Password Link -->
+        <div class="text-end mb-3">
+            <a href="#" class="text-decoration-none">Forgot your Password?</a>
+        </div>
+        
+        <!-- Submit Button -->
+        <div>
+            <button type="submit" class="btn btn-primary form-control">Submit</button>
+        </div>
+        <div class="text-center mt-5">
+            <p>Don't have an account? Register <a href="register" class="text-decoration-none">here</a> to get started</p>
+        </div>
+              <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+            {{errorMessage}}
+        </div>
+    </form>
+</div>

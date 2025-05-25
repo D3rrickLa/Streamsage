@@ -20,3 +20,8 @@ Plans:
 - deploying to a provider
 - integration test (working with docker and stuff)
 - find a services provider to deploy all the things
+
+
+
+# Attributions
+- speical thanks to the TMDB folks  and JustWatch for providing me the APIs needed for this project

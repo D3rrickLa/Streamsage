@@ -1,3 +1,18 @@
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { PromptComponent } from './modules/movies/prompt/prompt.component';
+import { LoginComponent } from './modules/auth/login/login.component';
+import { RegisterComponent } from './modules/auth/register/register.component';
+import { NgModule } from '@angular/core';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+    {path: '', component: PromptComponent},
+    {path: 'login', component: LoginComponent},
+    {path: 'register', component: RegisterComponent}
+];
+
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule {}
