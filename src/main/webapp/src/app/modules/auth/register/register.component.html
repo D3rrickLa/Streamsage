@@ -1,23 +1,23 @@
 <div class="d-flex justify-content-center align-items-center vh-100">
 
-    <form>
+    <form (ngSubmit)="onSubmit()">
         <div class="row mb-5">
             <div class="col form-floating">
-                <input type="text" class="form-control" id="firstname" placeholder=" " required>
+                <input type="text" class="form-control" id="firstname" placeholder=" " name="firstName"  [(ngModel)]="user.firstName" required>
                 <label for="firstname">First name</label>
             </div>
             <div class="col form-floating">
-                <input type="text" class="form-control" id="lastname" placeholder=" " required>
+                <input type="text" class="form-control" id="lastname" placeholder=" " name="lastName"  [(ngModel)]="user.lastName" required>
                 <label for="lastname">Last name</label>
             </div>
         </div>
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="name" placeholder=" " readonly>
-            <label for="name">Email </label>
+            <input type="email" class="form-control" id="email" placeholder=" " name="email"  [(ngModel)]="user.email" required>
+            <label for="email">Email </label>
         </div>
 
         <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="password" placeholder=" " required>
+            <input type="password" class="form-control" id="password" placeholder=" " name="password"  [(ngModel)]="user.password" required>
             <label for="password">Password</label>
         </div>
 
@@ -27,6 +27,9 @@
         </div>
         <div class="text-center mt-5">
             <p>Already have an account? <a href="/login" class="text-decoration-none">Log in here</a></p>
+        </div>
+        <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+            {{errorMessage}}
         </div>
     </form>
 </div>
