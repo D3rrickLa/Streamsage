@@ -43,6 +43,10 @@ export class PromptComponent {
 
   onSubmit() {
     console.log('Message sent:', this.message);
+
+    if (this.recData != null) {
+      this.recData == null
+    }
     
     const data = {
       prompt: this.message
@@ -58,9 +62,7 @@ export class PromptComponent {
         error: (err) => console.error("Error occurred:", err)
     })
 
-    // this.message = ''; // Clears the textarea after submission
+    this.message = ''; // Clears the textarea after submission
     this.showButton = false; // Hides the button again
-    
-    
   }
 }

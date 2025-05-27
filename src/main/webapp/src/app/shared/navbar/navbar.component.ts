@@ -17,4 +17,8 @@ export class NavbarComponent {
     this.authService.logout()
     this.router.navigate(["/"])
   }
+
+  goToSettings() {
+    this.router.navigate(['/account'])
+  }
 }

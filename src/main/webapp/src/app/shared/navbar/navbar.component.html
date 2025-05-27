@@ -20,25 +20,17 @@
                 <a class="nav-link" *ngIf="!authService.isLoggedIn()" href="/login"
                     style="padding-right: 20px;">Login</a>
 
-                <div 
-  ngbDropdown 
-  class="d-inline-block position-relative" 
-  *ngIf="authService.isLoggedIn()" 
-  style="padding-right: 20px;"
->
-  <a type="button" class="btn" id="dropdownBasic1" ngbDropdownToggle>
-    Account
-  </a>
-  <div 
-    ngbDropdownMenu 
-    aria-labelledby="dropdownBasic1" 
-    class="dropdown-menu dropdown-menu-end"
-    style="position: absolute;"
-  >
-    <button ngbDropdownItem>Settings</button>
-    <button ngbDropdownItem (click)="logout()">Logout</button>
-  </div>
-</div>
+                <div ngbDropdown class="d-inline-block position-relative" *ngIf="authService.isLoggedIn()"
+                    style="padding-right: 20px;">
+                    <a type="button" class="btn" id="dropdownBasic1" ngbDropdownToggle>
+                        Account
+                    </a>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu dropdown-menu-end"
+                        style="position: absolute;">
+                        <button ngbDropdownItem (click)="goToSettings()">Settings</button>
+                        <button ngbDropdownItem (click)="logout()">Logout</button>
+                    </div>
+                </div>
             </li>
         </ul>
     </div>

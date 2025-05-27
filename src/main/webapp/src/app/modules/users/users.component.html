@@ -1,1 +1,27 @@
-<p>users works!</p>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <button class="btn" (click)="changeLayout(0)">Profile</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn" (click)="changeLayout(1)">Feedback</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div *ngIf="currentProfile === 0">
+                <app-profile ></app-profile>
+            </div>
+            <div *ngIf="currentProfile === 1">
+                <app-feedback ></app-feedback>
+            </div>
+        </main>
+    </div>
+</div>
