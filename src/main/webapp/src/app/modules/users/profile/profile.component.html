@@ -1,37 +1,57 @@
-<div class="d-flex justify-content-center align-items-center vh-100">
+<div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    {{errorMessage}}
+</div>
+<div *ngIf="updateMessage" class="alert alert-success mt-3">
+    {{updateMessage}}
+</div>
+<div class="d-flex flex-column justify-content-center align-items-center vh-100">
 
+    <h3>Update Information</h3>
     <form (ngSubmit)="onSubmit()">
         <div class="row mb-5">
             <div class="col form-floating">
-                <input type="text" class="form-control" id="firstname" placeholder=" " name="firstName"  [(ngModel)]="user.firstName" required>
+                <input type="text" class="form-control" id="firstname" placeholder=" " name="firstName"
+                    [(ngModel)]="user.firstName" required>
                 <label for="firstname">First name</label>
             </div>
             <div class="col form-floating">
-                <input type="text" class="form-control" id="lastname" placeholder=" " name="lastName"  [(ngModel)]="user.lastName" required>
+                <input type="text" class="form-control" id="lastname" placeholder=" " name="lastName"
+                    [(ngModel)]="user.lastName" required>
                 <label for="lastname">Last name</label>
             </div>
         </div>
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="email" placeholder=" " name="email"  [(ngModel)]="user.email" required>
+            <input type="email" class="form-control" id="email" placeholder=" " name="email" [(ngModel)]="user.email"
+                readonly>
             <label for="email">Email </label>
         </div>
-
-        <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="old_password" placeholder=" " name="old_password" required>
-            <label for="password">Old Password</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="password" placeholder=" " name="password"  [(ngModel)]="user.password" required>
-            <label for="password">New Password</label>
-        </div>
-
         <!-- Submit Button -->
         <div>
             <button type="submit" class="btn btn-primary form-control">Submit</button>
         </div>
- 
-        <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-            {{errorMessage}}
-        </div>
+
+
     </form>
+    <!-- Divider -->
+    <hr class="my-5 w-100" style="max-width: 500px;">
+
+    <!-- Password Update Form -->
+    <h3>Update Password</h3>
+    <form #formRef="ngForm" (ngSubmit)="onChangePassword(current.value, newPw.value, confirm.value, formRef)"
+        class="w-100" style="max-width: 500px;">
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="currentPassword" placeholder=" " #current required>
+            <label for="currentPassword">Current Password</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="newPassword" placeholder=" " #newPw required>
+            <label for="newPassword">New Password</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="confirmPassword" placeholder=" " #confirm required>
+            <label for="confirmPassword">Confirm New Password</label>
+        </div>
+        <button type="submit" class="btn btn-warning form-control">Change Password</button>
+    </form>
+
 </div>

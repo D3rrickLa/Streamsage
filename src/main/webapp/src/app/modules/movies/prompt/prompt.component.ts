@@ -16,6 +16,8 @@ import { SuggestionPackage } from '../../../models/domains/suggestion-package';
 export class PromptComponent {
   message: string = '';
   showButton: boolean = false;
+  loading: boolean = false;
+  errorMessage: string | null = null
   recData: SuggestionPackage = new SuggestionPackage;
   @ViewChild('autoResizeTextarea') textarea!: ElementRef;
 
@@ -43,7 +45,7 @@ export class PromptComponent {
 
   onSubmit() {
     console.log('Message sent:', this.message);
-
+    this.loading = true;
     if (this.recData != null) {
       this.recData == null
     }
@@ -52,15 +54,19 @@ export class PromptComponent {
       prompt: this.message
     }
     
-
+    
     this.promptService.postPrompt(data).subscribe({
       next: (data: SuggestionPackage) => {
-          console.log("Response from API:", data);
-          this.promptService.onAIResponse.emit(data);
-          this.recData = data;
-        },
-        error: (err) => console.error("Error occurred:", err)
-    })
+        console.log("Response from API:", data);
+        this.promptService.onAIResponse.emit(data);
+        this.recData = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error("Error occurred:", err)
+        this.loading = false;
+        this.errorMessage = err.error?.message || 'An problem on our end occurred, please try again later.';
+    }})
 
     this.message = ''; // Clears the textarea after submission
     this.showButton = false; // Hides the button again
