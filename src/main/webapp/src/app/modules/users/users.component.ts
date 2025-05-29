@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { ProfileComponent } from './profile/profile.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { CommonModule } from '@angular/common';
+import { FeedbackListComponent } from './feedback/feedback-list/feedback-list.component';
 
 @Component({
   selector: 'app-users',
-  imports: [ProfileComponent, FeedbackComponent, CommonModule],
+  imports: [ProfileComponent, FeedbackComponent, CommonModule, FeedbackListComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })

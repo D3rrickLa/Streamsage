@@ -1,0 +1,5 @@
+<span *ngFor="let star of [].constructor(max); let i = index"
+      (click)="setRating(i + 1)"
+      style="cursor: pointer; font-size: 1.5rem; color: gold;">
+  {{ i < rating ? '★' : '☆' }}
+</span>

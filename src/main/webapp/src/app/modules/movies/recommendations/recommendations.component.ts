@@ -1,19 +1,25 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { SuggestionPackage } from '../../../models/domains/suggestion-package';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
+import { FeedbackComponent } from '../../users/feedback/feedback.component';
 @Component({
   selector: 'app-recommendations',
-  imports: [NgbCarouselModule, CommonModule],
+  imports: [NgbCarouselModule, CommonModule, FeedbackComponent],
   templateUrl: './recommendations.component.html',
   styleUrl: './recommendations.component.css'
 })
-export class RecommendationsComponent {
+export class RecommendationsComponent implements AfterViewChecked {
   @Input() item: SuggestionPackage | null = null;
+  @ViewChild('recommendationsSection') recommendationsSection!: ElementRef;
+  
   isVisible: boolean = false;
   isLoggedIn: boolean = false;
+  hasSubmittedFeedback = false;
+  showPopup: boolean = false;
   expandedStates: { [key: string]: boolean } = {}; //tracking what title desc you expanded
-
+  private hasScrolled = false; // so we don't scroll multiple times unnecessarily
+  
   ngOnInit() {
     this.isRecVisible();
     this.isLoggedIn = this.hasToken(sessionStorage.getItem("token"));
@@ -21,8 +27,22 @@ export class RecommendationsComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['item'] && changes['item'].currentValue != null) {
       this.isRecVisible()
+      this.onRecommendationGenerated()
     }
   }
+  
+  ngAfterViewChecked(): void {
+     if (this.isVisible && this.recommendationsSection && !this.hasScrolled) {
+      this.recommendationsSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      this.hasScrolled = true; // only scroll once per visibility toggle
+    }
+
+    if (!this.isVisible) {
+      this.hasScrolled = false; // reset if hidden again
+    }
+  }
+
+
   isRecVisible(): void {
     if (this.item?.recommendationList != null) {
       this.isVisible = true;
@@ -31,6 +51,10 @@ export class RecommendationsComponent {
       this.isVisible = false;
 
     }
+  }
+
+  hide() {
+    this.isVisible = false;
   }
 
   hasToken(token: any): boolean {
@@ -50,4 +74,13 @@ export class RecommendationsComponent {
     this.expandedStates[title] = !this.expandedStates[title];
   }
 
+
+  onRecommendationGenerated() {
+    this.hasSubmittedFeedback = false // resets feedback vis
+  }
+
+  onFeedbackSubmitted() {
+    this.showPopup = false;
+    this.hasSubmittedFeedback = true;
+  }
 }

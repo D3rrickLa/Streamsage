@@ -1,4 +1,5 @@
-<div *ngIf="isVisible">
+<div class="mt-5"></div>
+<div *ngIf="isVisible" #recommendationsSection>
   <h1 class="text-center">Recommendations</h1>
 
   <div class="container py-4" style="background-color: rgb(57, 57, 59); color: white;">
@@ -21,7 +22,8 @@
 
             <div style="min-height: 150px;" class="px-4 text-center w-100">
               <p>
-                {{ isExpanded(recommendation.title || '') ? recommendation.description : (recommendation.description | slice:0:255) + '...' }}
+                {{ isExpanded(recommendation.title || '') ? recommendation.description : (recommendation.description |
+                slice:0:255) + '...' }}
               </p>
               <button *ngIf="recommendation.description && recommendation.description.length > 255"
                 class="btn btn-link p-0" (click)="toggleExpanded(recommendation.title)">
@@ -43,10 +45,10 @@
         }
       </ngb-carousel>
 
-      <div *ngIf="isLoggedIn" class="mt-5">
-        <button>submit feedback</button>
+      <div *ngIf="isLoggedIn && !hasSubmittedFeedback" class="mt-5">
+        <button *ngIf="!showPopup" (click)="showPopup = true" class="btn btn-secondary">submit feedback</button>
+        <app-feedback *ngIf="showPopup" (close)="showPopup = false" (submitted)="onFeedbackSubmitted()"></app-feedback>
       </div>
     </div>
   </div>
 </div>
-<div class="mt-5"></div>

@@ -13,5 +13,8 @@
     </div>
     <div *ngIf="loading" class="spinner mt-4">Loading...</div>
     <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{errorMessage}}</div>
+    
 </main>
-<div class="mt-5"><app-recommendations [item]="recData"></app-recommendations></div>
+<div class="mb-5">
+    <app-recommendations [item]="recData"></app-recommendations>
+</div>

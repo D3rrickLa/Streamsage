@@ -3,6 +3,7 @@ import { AuthService } from '../auth.service';
 import { User } from '../../../models/user';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -13,15 +14,14 @@ import { CommonModule } from '@angular/common';
 export class RegisterComponent {
   user: User = new User();
   errorMessage: string | null = null
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
     this.authService.registerUser(this.user).subscribe({
       next: (data: {token: string}) => {
         console.log('JWT TOKEN: ', data);
         sessionStorage.setItem("token", data.token)
-        // go to the home page
-        // change the 'login' tag to log out
+        this.router.navigate(["/"])
       },
       error: (err) => {
         console.error("error occurred", err)
