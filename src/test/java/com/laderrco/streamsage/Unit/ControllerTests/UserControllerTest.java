@@ -22,6 +22,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -83,77 +85,80 @@ public class UserControllerTest {
         }).when(pasetoAuthenticationFilter).doFilter(any(), any(), any());
 
         User testUser = User.builder()
-            .email("email@example.com")
-            .password("some_password")
-            .role(Roles.ROLE_USER)
-            .build();
+                .email("email@example.com")
+                .password("some_password")
+                .role(Roles.ROLE_USER)
+                .build();
         when(userService.findByEmail("existing_user@email.com")).thenReturn(Optional.of(testUser));
     }
-
 
     // tests if the user has been updated
     @Test
     void testUpdateUserInfo_Correct() throws Exception {
         User updateUser = User.builder()
-            .firstName("John")
-            .lastName("Test")
-            .email("email@example.com")
-            .password("some_password")
-            .build();
+                .firstName("John")
+                .lastName("Test")
+                .email("email@example.com")
+                .password("some_password")
+                .build();
         UserInfoDTO userInfoDTO = new UserInfoDTO(updateUser);
 
         when(userService.updateUserProfile(any(), any()))
-        .thenReturn(Optional.of(updateUser).get()); // Mock successful update
-        
-        mockMvc.perform(put("/api/v1/accounts/profile")
-        .contentType(MediaType.APPLICATION_JSON)
-        .with(csrf()) // If CSRF protection is enabled
-        .content(objectMapper.writeValueAsString(userInfoDTO)))
-        .andExpect(status().isOk());
-    }
+                .thenReturn(Optional.of(updateUser).get()); // Mock successful update
 
+        mockMvc.perform(put("/api/v1/accounts/profile")
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf()) // If CSRF protection is enabled
+                .content(objectMapper.writeValueAsString(userInfoDTO)))
+                .andExpect(status().isOk());
+    }
 
     @Test
     void testGetUserInfo() throws Exception {
-        MockHttpSession mockSession = new MockHttpSession(); 
-        mockSession.setAttribute("userEmail", "testUser@email.com"); // Ensure a valid email is set
+        User userDetails = new User();
+        userDetails.setEmail("testUser@email.com");
+        userDetails.setPassword("testing");
+        userDetails.setRole(Roles.ROLE_USER);
+
+        // Set the authentication in the security context
+        var auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
 
         User mockUser = User.builder()
-            .firstName("John")
-            .lastName("Doe")
-            .email("testUser@email.com")
-            .password("testing")
-            .build();
+                .firstName("John")
+                .lastName("Doe")
+                .email("testUser@email.com")
+                .password("testing")
+                .build();
 
-        when(userService.findByEmail("testUser@email.com")).thenReturn(Optional.of(mockUser));    
-        
+        when(userService.findByEmail("testUser@email.com")).thenReturn(Optional.of(mockUser));
+
         mockMvc.perform(get("/api/v1/accounts/profile")
-            .session(mockSession) // Pass the mocked session
-            .with(csrf()))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.firstName").value("John"))
-            .andExpect(jsonPath("$.lastName").value("Doe"))
-            .andExpect(jsonPath("$.email").value("testUser@email.com"));
+                .with(csrf())) // include if CSRF is enabled
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName").value("John"))
+                .andExpect(jsonPath("$.lastName").value("Doe"))
+                .andExpect(jsonPath("$.email").value("testUser@email.com"));
     }
 
     @Test
     void testGetUserInfo_NoEmail() throws Exception {
-        MockHttpSession mockSession = new MockHttpSession(); 
+        MockHttpSession mockSession = new MockHttpSession();
         mockSession.setAttribute("userEmail", "testUser@email.com"); // Ensure a valid email is set
 
         User mockUser = User.builder()
-            .firstName("John")
-            .lastName("Doe")
-            .email("testUser@email.com")
-            .password("testing")
-            .build();
+                .firstName("John")
+                .lastName("Doe")
+                .email("testUser@email.com")
+                .password("testing")
+                .build();
 
-        when(userService.findByEmail("testUser@email.com")).thenReturn(Optional.of(mockUser));    
-        
+        when(userService.findByEmail("testUser@email.com")).thenReturn(Optional.of(mockUser));
+
         mockMvc.perform(get("/api/v1/accounts/profile")
-            // .session(mockSession) // Pass the mocked session
-            .with(csrf()))
-            .andExpect(status().isUnauthorized());
+                // .session(mockSession) // Pass the mocked session
+                .with(csrf()))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -162,21 +167,21 @@ public class UserControllerTest {
 
         // Mock user lookup
         User mockUser = User.builder()
-            .id(1L)
-            .email("test@example.com")
-            .password("old_password")
-            .role(Roles.ROLE_USER)
-            .build();
+                .id(1L)
+                .email("test@example.com")
+                .password("old_password")
+                .role(Roles.ROLE_USER)
+                .build();
         when(userService.findByEmail("testUser")).thenReturn(Optional.of(mockUser));
 
         doNothing().when(userService).updateUserPassword(eq(1L), any(CredentialsDTO.class));
 
         mockMvc.perform(put("/api/v1/accounts/password")
-            .contentType(MediaType.APPLICATION_JSON)
-            .with(csrf()) // Keep CSRF enabled
-            .content(objectMapper.writeValueAsString(credentialsDTO)))
-            .andExpect(status().isOk())
-            .andExpect(content().string("Password has been updated successfully"));
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf()) // Keep CSRF enabled
+                .content(objectMapper.writeValueAsString(credentialsDTO)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Password has been updated successfully"));
     }
 
     @Test
@@ -187,11 +192,11 @@ public class UserControllerTest {
         doNothing().when(userDeletionService).deleteUserInfo(any(AuthenticationRequest.class));
 
         mockMvc.perform(post("/api/v1/accounts/delete")
-            .contentType(MediaType.APPLICATION_JSON)
-            .with(csrf())
-            .content(objectMapper.writeValueAsString(authenticationRequest)))
-            .andExpect(status().isOk())
-            .andExpect(content().string("User has been deleted"));
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf())
+                .content(objectMapper.writeValueAsString(authenticationRequest)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("User has been deleted"));
 
         // Verify that user deletion was called
         verify(userDeletionService, times(1)).deleteUserInfo(authenticationRequest);

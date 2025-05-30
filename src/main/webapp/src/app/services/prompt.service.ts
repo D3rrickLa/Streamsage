@@ -14,7 +14,8 @@ export class PromptService {
   constructor(private http: HttpClient) {}
 
   postPrompt(data: any): Observable<SuggestionPackage> {
-    return this.http.post(restURL, data, {headers: {"Accept-Language": "en-CA"}});
+    const locale = navigator.language || 'en-US'; // fallback if needed
+    return this.http.post(restURL, data, {headers: {"Accept-Language": locale}, withCredentials: true});
   }
 
   onAIResponse = new EventEmitter<SuggestionPackage>();

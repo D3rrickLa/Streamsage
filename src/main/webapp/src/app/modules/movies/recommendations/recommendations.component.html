@@ -1,10 +1,13 @@
-<div class="container py-4" style="background-color: rgb(57, 57, 59); color: white;">
+<div class="mt-5"></div>
+<div *ngIf="isVisible" #recommendationsSection>
   <h1 class="text-center">Recommendations</h1>
 
-  <!-- Fixed-size wrapper to prevent shifting -->
-  <div style="width: 800px; min-height: 1000px; margin: auto; position: relative;">
-    <ngb-carousel>
-      @for (recommendation of item.recommendationList; track recommendation.title) {
+  <div class="container py-4" style="background-color: rgb(57, 57, 59); color: white;">
+
+    <!-- Fixed-size wrapper to prevent shifting -->
+    <div style="width: 800px; min-height: 1000px; margin: auto; position: relative;">
+      <ngb-carousel>
+        @for (recommendation of item?.recommendationList; track recommendation.title) {
         <ng-template ngbSlide>
           <div class="d-flex flex-column align-items-center justify-content-start w-100 h-100">
 
@@ -12,33 +15,40 @@
             <h6>{{ recommendation.genres }}</h6>
 
             <div style="height: 700px; background-color: #2e2e2e;"
-                 class="d-flex justify-content-center align-items-center my-3 w-100">
-              <img 
-                src="https://image.tmdb.org/t/p/w780/{{ recommendation.posterURL }}" 
-                alt="{{ recommendation.title }}"
-                style="max-height: 100%; max-width: 100%; object-fit: contain;"
-              >
+              class="d-flex justify-content-center align-items-center my-3 w-100">
+              <img src="https://image.tmdb.org/t/p/w780/{{ recommendation.posterURL }}" alt="{{ recommendation.title }}"
+                style="max-height: 100%; max-width: 100%; object-fit: contain;">
             </div>
 
             <div style="min-height: 150px;" class="px-4 text-center w-100">
-              <p>{{ recommendation.description }}</p>
+              <p>
+                {{ isExpanded(recommendation.title || '') ? recommendation.description : (recommendation.description |
+                slice:0:255) + '...' }}
+              </p>
+              <button *ngIf="recommendation.description && recommendation.description.length > 255"
+                class="btn btn-link p-0" (click)="toggleExpanded(recommendation.title)">
+                {{ isExpanded(recommendation.title) ? 'Show less' : 'Show more' }}
+              </button>
             </div>
 
             <h6 class="mt-4">Where to watch</h6>
             <div class="d-flex justify-content-center flex-wrap gap-3 my-2">
               @for (services of recommendation.availableService; track $index) {
-                <img 
-                  src="https://image.tmdb.org/t/p/w1280/{{ services.logoURL }}" 
-                  alt="{{ services.name }}"
-                  style="height: 50px;"
-                >
+              <img src="https://image.tmdb.org/t/p/w1280/{{ services.logoURL }}" alt="{{ services.name }}"
+                style="height: 50px;">
               }
             </div>
 
             <hr class="w-100" style="background-color: #aaa;">
           </div>
         </ng-template>
-      }
-    </ngb-carousel>
+        }
+      </ngb-carousel>
+
+      <div *ngIf="isLoggedIn && !hasSubmittedFeedback" class="mt-5">
+        <button *ngIf="!showPopup" (click)="showPopup = true" class="btn btn-secondary">submit feedback</button>
+        <app-feedback *ngIf="showPopup" (close)="showPopup = false" (submitted)="onFeedbackSubmitted()"></app-feedback>
+      </div>
+    </div>
   </div>
 </div>

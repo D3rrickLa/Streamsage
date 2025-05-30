@@ -1,1 +1,20 @@
-<p>feedback works!</p>
+<div class="overlay" (click)="close.emit()"></div>
+<div class="popup">
+  <h2>Feedback</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div>
+      <h5>Score</h5>
+      <app-star-rating [(rating)]="userRating" name="rating"></app-star-rating>
+    </div>
+    <div>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" cols="100" placeholder="Additional Comments" name="comment" [(ngModel)]="feedback.comment"></textarea>
+    </div>
+    <div class="col mt-3 mb-5">
+      <button type="submit" class="btn btn-primary form-control">Submit Feedback</button>
+    </div>
+
+  </form>
+  <div class="mt-3">
+    <button (click)="close.emit()" class="btn btn-secondary form-control">Close</button>
+  </div>
+</div>

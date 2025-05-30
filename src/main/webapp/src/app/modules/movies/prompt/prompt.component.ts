@@ -16,12 +16,15 @@ import { SuggestionPackage } from '../../../models/domains/suggestion-package';
 export class PromptComponent {
   message: string = '';
   showButton: boolean = false;
+  loading: boolean = false;
+  errorMessage: string | null = null
   recData: SuggestionPackage = new SuggestionPackage;
   @ViewChild('autoResizeTextarea') textarea!: ElementRef;
+  @ViewChild(RecommendationsComponent) recommendationsComponent!: RecommendationsComponent;
 
 
-  constructor(private promptService: PromptService) {}
-  
+  constructor(private promptService: PromptService) { }
+
   adjustHeight(event: Event) {
     const target = event.target as HTMLTextAreaElement;
     target.style.height = 'auto'; // Reset height
@@ -35,32 +38,44 @@ export class PromptComponent {
   }
 
   handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Enter' && !event.shiftKey) {
-        event.preventDefault(); // Prevents new line
-        this.onSubmit(); // Calls the submit function
-      }
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault(); // Prevents new line
+      this.onSubmit(); // Calls the submit function
     }
+  }
 
   onSubmit() {
     console.log('Message sent:', this.message);
-    
+    this.loading = true;
+    if (this.recData != null) {
+      this.recData == null; 
+    }
+
+    // Hide child recommendations component
+    if (this.recommendationsComponent) {
+      this.recommendationsComponent.hide();
+    }
+
     const data = {
       prompt: this.message
     }
-    
+
 
     this.promptService.postPrompt(data).subscribe({
       next: (data: SuggestionPackage) => {
-          console.log("Response from API:", data);
-          this.promptService.onAIResponse.emit(data);
-          this.recData = data;
-        },
-        error: (err) => console.error("Error occurred:", err)
+        console.log("Response from API:", data);
+        this.promptService.onAIResponse.emit(data);
+        this.recData = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error("Error occurred:", err)
+        this.loading = false;
+        this.errorMessage = err.error?.message || 'An problem on our end occurred, please try again later.';
+      }
     })
 
-    // this.message = ''; // Clears the textarea after submission
+    this.message = ''; // Clears the textarea after submission
     this.showButton = false; // Hides the button again
-    
-    
   }
 }
