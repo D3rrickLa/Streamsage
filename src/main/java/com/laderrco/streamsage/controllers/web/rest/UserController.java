@@ -25,8 +25,6 @@ import com.laderrco.streamsage.entities.User;
 import com.laderrco.streamsage.services.TokenService;
 import com.laderrco.streamsage.services.Interfaces.UserService;
 
-import jakarta.servlet.http.HttpSession;
-
 import com.laderrco.streamsage.services.UserDeletionService;
 
 import lombok.AllArgsConstructor;

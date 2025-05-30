@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.laderrco.streamsage.domains.SuggestionPackage;
 import com.laderrco.streamsage.dtos.FeedbackDTO;
@@ -27,6 +28,12 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public List<Feedback> findAll() {
         return feedbackRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Feedback> findAllByIndividual(User user) {
+       return feedbackRepository.findByUserOrderByTimestampDesc(user);
     }
 
     @Override
@@ -58,4 +65,6 @@ public class FeedbackServiceImpl implements FeedbackService {
     public void deleteByUserId(Long id) {
         feedbackRepository.deleteByUserId(id);
     }
+
+
 }

@@ -15,5 +15,9 @@ export class FeedbackService {
     return this.http.post(restURL, data, {withCredentials: true})
   }
 
+  getFeedback(): Observable<Feedback[]> {
+    return this.http.get<Feedback[]>(restURL+"/users");
+  }
+
   onFeedbackResponse = new EventEmitter<Feedback>();
 }

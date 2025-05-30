@@ -6,7 +6,7 @@ import { FeedbackListComponent } from './feedback/feedback-list/feedback-list.co
 
 @Component({
   selector: 'app-users',
-  imports: [ProfileComponent, FeedbackComponent, CommonModule, FeedbackListComponent],
+  imports: [ProfileComponent, CommonModule, FeedbackListComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })

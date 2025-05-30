@@ -37,6 +37,7 @@ import com.laderrco.streamsage.dtos.FeedbackDTO;
 import com.laderrco.streamsage.entities.Feedback;
 import com.laderrco.streamsage.services.TokenService;
 import com.laderrco.streamsage.services.Interfaces.FeedbackService;
+import com.laderrco.streamsage.services.Interfaces.UserService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -51,6 +52,10 @@ public class FeedbackControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    
+    @MockitoBean
+    private UserService userService;
 
     @MockitoBean
     private PasetoAuthenticationFilter pasetoAuthenticationFilter;
