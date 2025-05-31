@@ -23,7 +23,7 @@ async def root(request: Request):
 async def generate_media(request: Request, body: PromptRequestDTO): 
     response = client.chat(
         model="mistral:7b",
-        messages=[{"role": "user", "content": body.prompt}],  # Ensure correct format
+        messages=[{"role": "user", "content": body.prompt + ". Please give the names only."}],  # Ensure correct format
     )
     ai_response = response.get("message", {}).get("content", "") 
     message_text = parse_ai_response(ai_response)

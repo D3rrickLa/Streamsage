@@ -1,14 +1,16 @@
 <div class="container">
     <div *ngIf="user_feedback == null">
-        <h1>Some Text</h1>
+        <h1>Nothing Here</h1>
     </div>
     <div *ngIf="user_feedback != null" class="mt-2">
+        <h2>Your Feedback</h2>
+        <br><br>
         @for (feedback of user_feedback; track feedback.id) {
-        <h3>{{ feedback.comment }}</h3>
-        <h3>{{ feedback.rating }}</h3>
-        <p>Title: {{ feedback.suggestionPackage?.timestamp }}</p>
-        <p>Description: {{ feedback.suggestionPackage?.userPrompt }}</p>
+        <h3>AI Prompt: {{ feedback.suggestionPackage?.userPrompt }}</h3>
+        <p>Timestamp: {{ feedback.suggestionPackage?.timestamp }}</p>
+        <p>{{ feedback.comment }}</p>
+        <p>Rating: {{ feedback.rating }} / 5</p>
+        <hr>   
         }
     </div>
-
 </div>
